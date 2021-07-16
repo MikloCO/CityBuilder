@@ -40,33 +40,23 @@ public class GridStructure
     public bool bIsCellTaken(Vector3 gridPosition)
     {
         var cellIndex = CalculateGridIndex(gridPosition);
-
-        if (bCellIsValid(gridPosition))
-        {
+        if (bCellIsValid(cellIndex))
             return grid[cellIndex.y, cellIndex.x].IsTaken;
-        }
-        else
-        {
-            throw new IndexOutOfRangeException("No index " + cellIndex + " in grid");
-        }
+        throw new IndexOutOfRangeException("No index " + cellIndex + " in grid");
     }
 
     public void PlaceStructureOnTheGrid(GameObject structure, Vector3 gridPosition)
     {
-        if (bCellIsValid(gridPosition))
-        {
-            Vector2Int cellIndex = CalculateGridIndex(gridPosition);
+        var cellIndex = CalculateGridIndex(gridPosition);
+        if (bCellIsValid(cellIndex))
             grid[cellIndex.y, cellIndex.x].SetConstruction(structure);
-        }
+
     }
 
-    private bool bCellIsValid(Vector3 gridPosition)
+    private bool bCellIsValid(Vector2Int cellIndex)
     {
-        Vector2Int cellIndex = CalculateGridIndex(gridPosition);
-
         if (cellIndex.x >= 0 && cellIndex.x < grid.GetLength(1) && cellIndex.y >= 0 && cellIndex.y < grid.GetLength(0))
             return true;
-
-       return false;
+        return false;
     }
 }

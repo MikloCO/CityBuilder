@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public PlacementManager placeManager;
+    public PlacementManager placementManager;
     public InputManager inputManager;
     public int width, length;
     private GridStructure grid;
@@ -21,10 +21,11 @@ public class GameManager : MonoBehaviour
     private void HandleInput(Vector3 position)
     {
         Vector3 gridPosition = grid.CalculateGridPosition(position);
-        if(grid.bIsCellTaken(gridPosition) == false)
+        if (grid.bIsCellTaken(gridPosition) == false)
         {
-            placeManager.CreateBuilding(gridPosition, grid);
+            placementManager.CreateBuilding(gridPosition, grid);
         }
+
     }
 
     // Update is called once per frame
