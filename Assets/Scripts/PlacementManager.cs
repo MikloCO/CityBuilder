@@ -11,7 +11,8 @@ public class PlacementManager : MonoBehaviour
     {
         GameObject newStructure = Instantiate(buildingPrefab, 
                     ground.position+gridPosition,
-                    Quaternion.identity);
+                    Quaternion.identity)
+                    as GameObject;
 
         grid.PlaceStructureOnTheGrid(newStructure, gridPosition);
     }
