@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba03edb1234d262419bdb98e106ec690, type: 3}
+  m_Name: Residential
+  m_EditorClassIdentifier: 
+  buildingName: Residential Area
+  prefab: {fileID: 919132149155446097, guid: 01a3056378b95fe47845af7d2eb7d9a0, type: 3}
+  placementCost: 0
+  upKeepCost: 0
+  income: 0
+  requireRoadAccess: 1
+  requirePower: 1
+  requireWater: 1
+  upgradable: 1
+  prefabVariants:
+  - {fileID: 919132149155446097, guid: 01a3056378b95fe47845af7d2eb7d9a0, type: 3}
+  availableUpgrades:
+  - prefabVariants:
+    - {fileID: 919132149155446097, guid: 01a3056378b95fe47845af7d2eb7d9a0, type: 3}
+    happinessThreshold: 0
+    newIncome: 0
+    newUpKeep: 0
+  zoneType: 0

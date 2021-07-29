@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,5 +16,16 @@ public class Cell
             return;
         this.structureModel = structureModel;
         this.isTaken = true;
+    }
+
+    public GameObject GetStructure()
+    {
+        return structureModel;
+    }
+
+    public void RemoveStructure()
+    {
+        structureModel = null;
+        isTaken = false;
     }
 }
