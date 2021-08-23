@@ -24,7 +24,7 @@ public class PlayerBuildingSingleStructureState : PlayerState
 
     public override void OnInputPointerChange(Vector3 position)
     {
-        return;
+      //  return;
     }
 
     public override void OnInputPointerDown(Vector3 position)

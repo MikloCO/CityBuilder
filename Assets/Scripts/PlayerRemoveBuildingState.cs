@@ -27,7 +27,10 @@ public class PlayerRemoveBuildingState : PlayerState
 
     public override void OnInputPointerChange(Vector3 position)
     {
-        throw new System.NotImplementedException();
+        // throw new System.NotImplementedException();
+        //  this.buidlingManager.PrepareStructureForPlacement(this.gameManager.selectionState);
+        this.buidlingManager.RemoveBuildingAt(position);
+
     }
 
     public override void OnInputPointerDown(Vector3 position)
