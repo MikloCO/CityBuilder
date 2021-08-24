@@ -7,7 +7,10 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    private Action OnBuildAreaHandler; //delegates
+    private Action<string> OnBuildAreaHandler; //delegates
+    private Action<string> OnBuildSingleStructureHandler;
+    private Action<string> OnBuildRoadHandler;
+
     private Action OnCancleActionHandler;
     private Action OnDemolishActionHandler;
 
@@ -59,67 +62,97 @@ public class UIController : MonoBehaviour
 
     private void PrepareBuildMenu()
     {
-        CreateButtonsInPanel(zonePanel.transform, structureRepository.GetZoneNames());
-        CreateButtonsInPanel(facilitiesPanel.transform, structureRepository.GetSingleStructureNames());
+        CreateButtonsInPanel(zonePanel.transform, structureRepository.GetZoneNames(), OnBuildAreaCallback);
+        CreateButtonsInPanel(facilitiesPanel.transform, structureRepository.GetSingleStructureNames(), OnBuildSingleStructureCallback);
         CreateButtonsInPanel(roadsPanel.transform, 
             new List<string>() { 
             structureRepository.GetRoadStructureName()
-            }
+            },
+            OnBuildRoadCallback
         );
     }
 
-    private void CreateButtonsInPanel(Transform panelTransform, List<string> dataToShow)
+    private void CreateButtonsInPanel(Transform panelTransform, List<string> dataToShow, Action<string> callback)
     {
-        if(dataToShow.Count > panelTransform.childCount)
+        if (dataToShow.Count > panelTransform.childCount)
         {
             int quantityDifference = dataToShow.Count - panelTransform.childCount;
-            for(int i = 0; i < quantityDifference; i++)
+            for (int i = 0; i < quantityDifference; i++)
             {
                 Instantiate(buildButtonPrefab, panelTransform);
             }
         }
 
-        for(int i = 0; i < panelTransform.childCount; i++)
+        for (int i = 0; i < panelTransform.childCount; i++)
         {
             var button = panelTransform.GetChild(i).GetComponent<Button>();
-            if(button != null)
+            if (button != null)
             {
                 button.GetComponentInChildren<TextMeshProUGUI>().text = dataToShow[i];
-                button.onClick.AddListener(OnBuildAreaCallback);
+                button.onClick.AddListener(()=>OnBuildAreaCallback(button.GetComponentInChildren<TextMeshProUGUI>().text)); // (()=> callback(button.name)
+
             }
         }
-
-        //foreach(Transform child in panelTransform)
-        //{
-        //    var button = child.GetComponent<Button>();
-        //    if(button != null)
-        //    {
-        //        button.onClick.RemoveAllListeners();
-        //        button.onClick.AddListener(OnBuildAreaCallback);
-        //    }
-        //}
     }
 
-    private void OnBuildAreaCallback()
+    private void OnBuildAreaCallback(string nameOfStructure)
+    {
+        PrepareUIForBuilding();
+        OnBuildAreaHandler?.Invoke(nameOfStructure);
+    }
+
+    private void OnBuildRoadCallback(string nameOfStructure)
+    {
+        PrepareUIForBuilding();
+        OnBuildRoadHandler?.Invoke(nameOfStructure);
+    }
+
+    private void OnBuildSingleStructureCallback(string nameOfStructure)
+    {
+        PrepareUIForBuilding();
+        OnBuildSingleStructureHandler?.Invoke(nameOfStructure);
+    }
+
+    private void PrepareUIForBuilding()
     {
         cancelActionPanel.SetActive(true);
         OnCloseMenuButtonHandler();
-        OnBuildAreaHandler?.Invoke();
     }
+
     private void OnCancelActionCallBack()
     {
         cancelActionPanel.SetActive(false);
         OnCancleActionHandler?.Invoke();
     }
 
-    public void  AddListenerOnBuildAreaEvent(Action listener)
+    public void  AddListenerOnBuildAreaEvent(Action<string> listener)
     {
         OnBuildAreaHandler += listener;
     }
 
-    public void RemoveListenerOnBuildAreaEvent(Action listener)
+    public void RemoveListenerOnBuildAreaEvent(Action<string> listener)
     {
         OnBuildAreaHandler -= listener;
+    }
+
+    public void AddListenerOnBuildSingleStructureEvent(Action<string> listener)
+    {
+        OnBuildSingleStructureHandler += listener;
+    }
+
+    public void RemoveListenerOnBuildSingleStructureEvent(Action<string> listener)
+    {
+        OnBuildSingleStructureHandler -= listener;
+    }
+
+    public void AddListenerOnBuildRoadHandlerEvent(Action<string> listener)
+    {
+        OnBuildRoadHandler += listener;
+    }
+
+    public void RemoveListenerOnBuildRoadHandlerEvent(Action<string> listener)
+    {
+        OnBuildRoadHandler -= listener;
     }
 
     public void AddListenerOnCancelActionEvent(Action listener)

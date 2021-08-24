@@ -20,7 +20,7 @@ public abstract class PlayerState
 
     public abstract void OnInputPanUp();
 
-    public virtual void EnterState()
+    public virtual void EnterState(string variable)
     {
 
     }

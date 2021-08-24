@@ -416,7 +416,6 @@ GameObject:
   - component: {fileID: 332458984}
   - component: {fileID: 332458983}
   - component: {fileID: 332458982}
-  - component: {fileID: 332458981}
   m_Layer: 5
   m_Name: FacilitiesPanel
   m_TagString: Untagged
@@ -444,20 +443,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 220, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &332458981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 332458979}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 1
-  m_VerticalFit: 1
 --- !u!114 &332458982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,7 +463,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
@@ -840,7 +825,6 @@ GameObject:
   - component: {fileID: 687586543}
   - component: {fileID: 687586542}
   - component: {fileID: 687586541}
-  - component: {fileID: 687586540}
   m_Layer: 5
   m_Name: ToolsPanel
   m_TagString: Untagged
@@ -869,20 +853,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 180, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &687586540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687586538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 0
 --- !u!114 &687586541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -902,7 +872,7 @@ MonoBehaviour:
     m_Bottom: 20
   m_ChildAlignment: 1
   m_Spacing: 0
-  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
@@ -1016,7 +986,6 @@ GameObject:
   - component: {fileID: 889783750}
   - component: {fileID: 889783749}
   - component: {fileID: 889783748}
-  - component: {fileID: 889783747}
   m_Layer: 5
   m_Name: RoadsPanel
   m_TagString: Untagged
@@ -1044,20 +1013,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 220, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &889783747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 889783745}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 1
-  m_VerticalFit: 1
 --- !u!114 &889783748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1078,7 +1033,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
@@ -1400,7 +1355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb3a3941834f4b46864c02a9fbb9236, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  structureRepository: {fileID: 0}
+  structureRepository: {fileID: 2066050144}
   buildResidentialAreaButton: {fileID: 0}
   cancleActionButton: {fileID: 1400354300}
   cancelActionPanel: {fileID: 1976214937}
@@ -1802,7 +1757,6 @@ GameObject:
   - component: {fileID: 1725811707}
   - component: {fileID: 1725811706}
   - component: {fileID: 1725811705}
-  - component: {fileID: 1725811704}
   m_Layer: 5
   m_Name: ZonesPanel
   m_TagString: Untagged
@@ -1830,20 +1784,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 220, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1725811704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1725811702}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 1
-  m_VerticalFit: 1
 --- !u!114 &1725811705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1864,7 +1804,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
@@ -1958,7 +1898,7 @@ PrefabInstance:
     - target: {fileID: 408427761306390735, guid: 8c27ca2ae513188448b700ef6de7c901,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 225
       objectReference: {fileID: 0}
     - target: {fileID: 408427761306390735, guid: 8c27ca2ae513188448b700ef6de7c901,
         type: 3}
@@ -2008,7 +1948,7 @@ PrefabInstance:
     - target: {fileID: 408427763040141719, guid: 8c27ca2ae513188448b700ef6de7c901,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 225
       objectReference: {fileID: 0}
     - target: {fileID: 408427763040141719, guid: 8c27ca2ae513188448b700ef6de7c901,
         type: 3}
