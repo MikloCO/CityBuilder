@@ -18,7 +18,8 @@ public class BuildingManager
         Vector3 gridPosition = grid.CalculateGridPosition(inputPosition);
         if(!grid.bIsCellTaken(gridPosition))
         {
-            placementManger.CreateBuilding(gridPosition, grid);
+            //     placementManger.CreateBuilding(gridPosition, grid); old
+            placementManger.CreateBuilding(gridPosition, grid, placementManger.buildingPrefab);
         }
     }
 
@@ -27,6 +28,7 @@ public class BuildingManager
         Vector3 gridPosition = grid.CalculateGridPosition(inputPosition);
         if (!grid.bIsCellTaken(gridPosition))
         {
+            Debug.Log("Removed");
             placementManger.RemoveBuilding(gridPosition, grid);
         }
     }

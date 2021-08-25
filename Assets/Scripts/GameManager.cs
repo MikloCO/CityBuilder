@@ -19,16 +19,14 @@ public class GameManager : MonoBehaviour
     public PlayerSelectionState selectionState;
     public PlayerBuildingSingleStructureState buildingSingleStructureState;
     public PlayerRemoveBuildingState demolishState;
+    public PlayerBuildingRoadState buidlingRoadState;
+    public PlayerBuildAreaState buildingAreaState;
 
     public PlayerState State { get => state; }
 
     private void Awake()
     {
-        buildingManager = new BuildingManager(cellSize, width, length, placementManager);
-        selectionState = new PlayerSelectionState(this, cameraMovement);
-        demolishState = new PlayerRemoveBuildingState(this, buildingManager);
-        buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager); 
-        state = selectionState;
+        PrepareStates();
 
 #if (UNITY_EDITOR && TEST) || !(UNITY_IOS || UNITY_ANDRIOD)
         inputManager = gameObject.AddComponent<InputManager>();
@@ -36,6 +34,17 @@ public class GameManager : MonoBehaviour
 #if(UNITY_IOS || UNITY_ANDRIOD)
 
 #endif
+    }
+
+    private void PrepareStates()
+    {
+        buildingManager = new BuildingManager(cellSize, width, length, placementManager);
+        selectionState = new PlayerSelectionState(this, cameraMovement);
+        demolishState = new PlayerRemoveBuildingState(this, buildingManager);
+        buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);
+        buildingAreaState = new PlayerBuildAreaState(this, buildingManager);
+        buidlingRoadState = new PlayerBuildingRoadState(this, buildingManager);
+        state = selectionState;
     }
 
     // Start is called before the first frame update
@@ -57,54 +66,21 @@ public class GameManager : MonoBehaviour
 
     private void AssignUIControllerListeners()
     {
-        uiController.AddListenerOnBuildAreaEvent(StartPlacementMode);
-        uiController.AddListenerOnCancelActionEvent(CancelAction);
-        uiController.AddListenerOnOnDemolishActionEvent(StartDemolishMode);
+        uiController.AddListenerOnBuildAreaEvent((structureName)=>state.OnBuildArea(structureName)); // Access state through game manager (using lambda) that is stored on the heap instead of the stack memory.
+        uiController.AddListenerOnBuildSingleStructureEvent((structureName)=>state.OnBuildSingleStructure(structureName));
+        uiController.AddListenerOnBuildAreaEvent((structureName) => state.OnBuildRoad(structureName));
+        uiController.AddListenerOnCancelActionEvent(()=>state.OnCancel());
+        uiController.AddListenerOnOnDemolishActionEvent(()=>state.OnDemolishAction());
     }
 
     private void AssignInputListeners()
     {
-        inputManager.AddListenerOnPointerSecondChangeEvent(HandleInput);
-        inputManager.AddListenerOnPointerSecondDownEvent(HandleInputCameraPan);
-        inputManager.AddListenerOnPointerSecondUpEvent(HandleInputCameraPanStop);
-        inputManager.AddListenerOnPointerChangeEvent(HandlePointerChange);
+        inputManager.AddListenerOnPointerSecondChangeEvent((position)=>state.OnInputPointerDown(position));
+        inputManager.AddListenerOnPointerSecondDownEvent((position)=>state.OnInputPanChange(position));
+        inputManager.AddListenerOnPointerSecondUpEvent(()=>state.OnInputPanUp());
+        inputManager.AddListenerOnPointerChangeEvent((position) => state.OnInputPointerChange(position));
     }
 
-    private void StartDemolishMode()
-    {
-        TransistionToState(demolishState, null);
-    }
-
-    private void HandlePointerChange(Vector3 position)
-    {
-        state.OnInputPointerChange(position);
-    }
-
-    private void HandleInputCameraPanStop()
-    {
-        state.OnInputPanUp();
-    }
-
-    private void HandleInputCameraPan(Vector3 position)
-    {
-        state.OnInputPanChange(position);
-    }
-
-    private void HandleInput(Vector3 position)
-    {
-        state.OnInputPointerDown(position);
-    }
-
-    private void StartPlacementMode(string variable)
-    {
-        TransistionToState(buildingSingleStructureState, variable);
-    }
-
-    private void CancelAction()
-    {
-        //  state.OnCancel();
-        state.OnCancel();
-    }
     public void TransistionToState(PlayerState newState, string variable)
     {
         this.state = newState;
