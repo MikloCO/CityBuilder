@@ -3,7 +3,11 @@ guid: 9060b8f974acaa040aa122704ee75790
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - prefab: {instanceID: 0}
+  - cornerPrefab: {instanceID: 0}
+  - threeWayPrefab: {instanceID: 0}
+  - FourWayPrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

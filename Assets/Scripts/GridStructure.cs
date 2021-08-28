@@ -45,7 +45,7 @@ public class GridStructure
 
     public bool bIsCellTaken(Vector3 gridPosition)
     {
-        var cellIndex = CalculateGridIndex(gridPosition);
+       var cellIndex = CalculateGridIndex(gridPosition);
         if (bCellIsValid(cellIndex))
             return grid[cellIndex.y, cellIndex.x].IsTaken;
         throw new IndexOutOfRangeException("No index " + cellIndex + " in grid");

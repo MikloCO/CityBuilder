@@ -89,7 +89,7 @@ public class UIController : MonoBehaviour
             if (button != null)
             {
                 button.GetComponentInChildren<TextMeshProUGUI>().text = dataToShow[i];
-                button.onClick.AddListener(()=>OnBuildAreaCallback(button.GetComponentInChildren<TextMeshProUGUI>().text)); // (()=> callback(button.name)
+                button.onClick.AddListener(() => callback(button.GetComponentInChildren<TextMeshProUGUI>().text));//OnBuildAreaCallback(button.GetComponentInChildren<TextMeshProUGUI>().text)); // (()=> callback(button.name)
 
             }
         }

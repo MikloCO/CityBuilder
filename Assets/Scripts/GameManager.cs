@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public PlacementManager placementManager;
+    public StructureRepository structureRepositoryy;
     public IInputManager inputManager;
     public UIController uiController;
     public int width, length;
@@ -20,7 +21,7 @@ public class GameManager : MonoBehaviour
     public PlayerBuildingSingleStructureState buildingSingleStructureState;
     public PlayerRemoveBuildingState demolishState;
     public PlayerBuildingRoadState buidlingRoadState;
-    public PlayerBuildAreaState buildingAreaState;
+    public PlayerBuildZoneState buildingAreaState;
 
     public PlayerState State { get => state; }
 
@@ -38,11 +39,11 @@ public class GameManager : MonoBehaviour
 
     private void PrepareStates()
     {
-        buildingManager = new BuildingManager(cellSize, width, length, placementManager);
+        buildingManager = new BuildingManager(cellSize, width, length, placementManager, structureRepositoryy);
         selectionState = new PlayerSelectionState(this, cameraMovement);
         demolishState = new PlayerRemoveBuildingState(this, buildingManager);
         buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);
-        buildingAreaState = new PlayerBuildAreaState(this, buildingManager);
+        buildingAreaState = new PlayerBuildZoneState(this, buildingManager);
         buidlingRoadState = new PlayerBuildingRoadState(this, buildingManager);
         state = selectionState;
     }
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
     {
         uiController.AddListenerOnBuildAreaEvent((structureName)=>state.OnBuildArea(structureName)); // Access state through game manager (using lambda) that is stored on the heap instead of the stack memory.
         uiController.AddListenerOnBuildSingleStructureEvent((structureName)=>state.OnBuildSingleStructure(structureName));
-        uiController.AddListenerOnBuildAreaEvent((structureName) => state.OnBuildRoad(structureName));
+        uiController.AddListenerOnBuildRoadHandlerEvent((structureName) => state.OnBuildRoad(structureName));
         uiController.AddListenerOnCancelActionEvent(()=>state.OnCancel());
         uiController.AddListenerOnOnDemolishActionEvent(()=>state.OnDemolishAction());
     }

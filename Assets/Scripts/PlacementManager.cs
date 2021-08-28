@@ -5,17 +5,7 @@ using UnityEngine;
 
 public class PlacementManager : MonoBehaviour
 {
-    public GameObject buildingPrefab;
     public Transform ground;
-
-    //public void CreateBuilding(Vector3 gridPosition, GridStructure grid)
-    //{
-    //    GameObject newStructure = Instantiate(buildingPrefab, 
-    //                ground.position+gridPosition,
-    //                Quaternion.identity);
-
-    //    grid.PlaceStructureOnTheGrid(newStructure, gridPosition);
-    //}
 
     public void CreateBuilding(Vector3 gridPosition, GridStructure grid, GameObject buildingPrefab)
     {
@@ -29,8 +19,12 @@ public class PlacementManager : MonoBehaviour
        var structure = grid.GetStructureFromGrid(gridPosition);
         if (structure != null)
         {
-            Debug.Log("Destroyed!");
+            Debug.Log("Destroy structure");
             Destroy(structure);
+            if(structure == null) 
+            {
+                Debug.Log("Destroyed!");
+            }
             grid.RemoveStructureFromTheGrid(gridPosition);
         }
     }
