@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - roadStructure: {fileID: 11400000, guid: 953076e3a4e5b5443aab40e40254152f, type: 2}
+  - roadStructure: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

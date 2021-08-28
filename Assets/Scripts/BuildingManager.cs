@@ -7,6 +7,7 @@ public class BuildingManager
     GridStructure grid;
     PlacementManager placementManger;
     StructureRepository structureRepository;
+    Dictionary<Vector3Int, GameObject> structureToBemodified = new Dictionary<Vector3Int, GameObject>();
 
     public BuildingManager(int cellSize, int width, int length, PlacementManager placementManger, StructureRepository structureRepository)
     {
@@ -19,11 +20,25 @@ public class BuildingManager
     {
         GameObject buildingPrefab = this.structureRepository.GetBuildingPrefabByName(structureName, structureType);
         Vector3 gridPosition = grid.CalculateGridPosition(inputPosition);
-        if (grid.bIsCellTaken(gridPosition) == false)
+
+        var gridPositionInt = Vector3Int.FloorToInt(gridPosition);
+        if (grid.bIsCellTaken(gridPosition) == false && structureToBemodified.ContainsKey(gridPositionInt) == false)
         {
-           //   placementManger.CreateBuilding(gridPosition, grid);
-            placementManger.CreateBuilding(gridPosition, grid, buildingPrefab);
+            //   placementManger.CreateBuilding(gridPosition, grid);
+            //  placementManger.CreateBuilding(gridPosition, grid, buildingPrefab);
+            structureToBemodified.Add(Vector3Int.FloorToInt(gridPosition), placementManger.CreateGhostStructure(gridPosition, buildingPrefab));
         }
+    }
+
+    public void ConfirmPlacement()
+    {
+        placementManger.ConfirmPlacement(structureToBemodified.Values);
+       
+        foreach (var keyValuePair in structureToBemodified)
+        {
+            grid.PlaceStructureOnTheGrid(keyValuePair.Value, keyValuePair.Key);
+        }
+        structureToBemodified.Clear();
     }
 
     public void RemoveBuildingAt(Vector3 inputPosition)

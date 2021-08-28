@@ -5,9 +5,16 @@ using UnityEngine;
 public abstract class PlayerState
 {
     protected GameManager gameManager;
+    protected CameraMovement cameraMovement;
     public PlayerState(GameManager gameManager)
     {
         this.gameManager = gameManager;
+        cameraMovement = gameManager.cameraMovement;
+    }
+
+    public virtual void OnConfirmAction()
+    {
+
     }
 
     public virtual void OnInputPointerDown(Vector3 position)
@@ -21,16 +28,6 @@ public abstract class PlayerState
     }
 
     public virtual void OnInputPointerUp()
-    {
-
-    }
-
-    public virtual void OnInputPanChange(Vector3 position)
-    {
-
-    }
-
-    public virtual void OnInputPanUp()
     {
 
     }
@@ -62,4 +59,13 @@ public abstract class PlayerState
         this.gameManager.TransistionToState(this.gameManager.demolishState, null);
     }
 
+    public virtual void OnInputPanChange(Vector3 panPosition)
+    {
+        cameraMovement.MoveCamera(panPosition);
+    }
+
+    public virtual void OnInputPanUp()
+    {
+        cameraMovement.StopCameraMovement();
+    }
 }

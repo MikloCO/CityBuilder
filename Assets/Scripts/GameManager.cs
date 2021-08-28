@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     private void PrepareStates()
     {
         buildingManager = new BuildingManager(cellSize, width, length, placementManager, structureRepositoryy);
-        selectionState = new PlayerSelectionState(this, cameraMovement);
+        selectionState = new PlayerSelectionState(this);
         demolishState = new PlayerRemoveBuildingState(this, buildingManager);
         buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);
         buildingAreaState = new PlayerBuildZoneState(this, buildingManager);
@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
         uiController.AddListenerOnBuildRoadHandlerEvent((structureName) => state.OnBuildRoad(structureName));
         uiController.AddListenerOnCancelActionEvent(()=>state.OnCancel());
         uiController.AddListenerOnOnDemolishActionEvent(()=>state.OnDemolishAction());
+        uiController.AddListenerOnConfirmActionEvent(() => state.OnConfirmAction());
     }
 
     private void AssignInputListeners()

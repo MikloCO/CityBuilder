@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4951702106179778617
+--- !u!1 &7687962994768176559
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,45 +8,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8281173088908921386}
-  - component: {fileID: 1132556021290496028}
-  - component: {fileID: 6668472980113460453}
+  - component: {fileID: 6695296032078010300}
+  - component: {fileID: 2427861292994309514}
+  - component: {fileID: 8254525893109830003}
   m_Layer: 0
-  m_Name: roadscaled
+  m_Name: PowerplantScaled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8281173088908921386
+--- !u!4 &6695296032078010300
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4951702106179778617}
+  m_GameObject: {fileID: 7687962994768176559}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 5, z: 5}
-  m_LocalScale: {x: 3, y: 3, z: -3}
+  m_LocalPosition: {x: 3.35, y: 0, z: 3.27}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1132556021290496028
+--- !u!33 &2427861292994309514
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4951702106179778617}
-  m_Mesh: {fileID: -704474570306944126, guid: fd437985697aec046a8f68efca3744e5, type: 3}
---- !u!23 &6668472980113460453
+  m_GameObject: {fileID: 7687962994768176559}
+  m_Mesh: {fileID: 5211021137221921484, guid: 38c57d788945edd468c376154ea08eaf, type: 3}
+--- !u!23 &8254525893109830003
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4951702106179778617}
+  m_GameObject: {fileID: 7687962994768176559}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -60,10 +60,15 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -8851711989615107646, guid: fd437985697aec046a8f68efca3744e5, type: 3}
-  - {fileID: 4779213091792845149, guid: fd437985697aec046a8f68efca3744e5, type: 3}
-  - {fileID: 454191482458552811, guid: fd437985697aec046a8f68efca3744e5, type: 3}
-  - {fileID: -8085240283421722666, guid: fd437985697aec046a8f68efca3744e5, type: 3}
+  - {fileID: -2867747967464863736, guid: 38c57d788945edd468c376154ea08eaf, type: 3}
+  - {fileID: -1242230322862417841, guid: 38c57d788945edd468c376154ea08eaf, type: 3}
+  - {fileID: 2750861149787165676, guid: 38c57d788945edd468c376154ea08eaf, type: 3}
+  - {fileID: -2588933649015344934, guid: 38c57d788945edd468c376154ea08eaf, type: 3}
+  - {fileID: -654420689197185234, guid: 38c57d788945edd468c376154ea08eaf, type: 3}
+  - {fileID: 5561349426305759274, guid: 38c57d788945edd468c376154ea08eaf, type: 3}
+  - {fileID: -4770390735465466038, guid: 38c57d788945edd468c376154ea08eaf, type: 3}
+  - {fileID: -8848810374240701247, guid: 38c57d788945edd468c376154ea08eaf, type: 3}
+  - {fileID: -7901023435836242856, guid: 38c57d788945edd468c376154ea08eaf, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -1,58 +1,85 @@
 using System.Collections;
 using System.Collections.Generic;
+using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 
-[TestFixture]
-public class PlayerStatusTest
+namespace Tests
 {
-    UIController uiController;
-    GameManager gameMangerComponent;
-
-    [SetUp]
-    public void Init()
+    [TestFixture]
+    public class PlayerStatusTest
     {
-        GameObject gameManagerObject = new GameObject();
-        var cameraMovementComponent = gameManagerObject.AddComponent<CameraMovement>();
-        uiController = gameManagerObject.AddComponent<UIController>();
-        GameObject buttonBuildObject = new GameObject();
-        GameObject cancelButtonObject = new GameObject();
-        GameObject cancelPanel = new GameObject();
-        uiController.cancleActionButton = cancelButtonObject.AddComponent<Button>();
-        var buttonBuildComponent = buttonBuildObject.AddComponent<Button>();
-        uiController.buildResidentialAreaButton = buttonBuildComponent;
-        uiController.cancelActionPanel = cancelButtonObject;
-        gameMangerComponent = gameManagerObject.AddComponent<GameManager>();
-        gameMangerComponent.cameraMovement = cameraMovementComponent;
-        gameMangerComponent.uiController = uiController;
-    }
+        UIController uiController;
+        GameManager gameManagerComponent;
 
-    // A Test behaves as an ordinary method
-    [Test]
-    public void PlayerStatusTestSimplePasses()
-    {
-        // Use the Assert class to test conditions
-    }
 
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator PlayerBuildingSingleStructureStateTestWithEnumeratorPasses()
-    {
-        yield return new WaitForEndOfFrame(); //calls awake
-        yield return new WaitForEndOfFrame(); //calls start methid,
-        uiController.buildResidentialAreaButton.onClick.Invoke();
-        yield return new WaitForEndOfFrame();
-        Assert.IsTrue(gameMangerComponent.State is PlayerBuildingSingleStructureState);
-    }
 
-    [UnityTest]
-    public IEnumerator PlayerSelectionStateTestWithEnumeratorPasses()
-    {
-        yield return new WaitForEndOfFrame(); //calls awake
-        yield return new WaitForEndOfFrame(); //calls start method,
-        Assert.IsTrue(gameMangerComponent.State is PlayerSelectionState);
+        [SetUp]
+        public void Init()
+        {
+            GameObject gameManagerObject = new GameObject();
+            var camerMovementComponent = gameManagerObject.AddComponent<CameraMovement>();
+
+            uiController = Substitute.For<UIController>();
+
+            gameManagerComponent = gameManagerObject.AddComponent<GameManager>();
+            gameManagerComponent.cameraMovement = camerMovementComponent;
+            gameManagerComponent.uiController = uiController;
+        }
+
+        [UnityTest]
+        public IEnumerator PlayerStatusPlayerBuildingSingleStructureStateTestWithEnumeratorPasses()
+        {
+            yield return new WaitForEndOfFrame(); //awake
+            yield return new WaitForEndOfFrame(); //start
+            gameManagerComponent.State.OnBuildSingleStructure(null);
+            yield return new WaitForEndOfFrame();
+            Assert.IsTrue(gameManagerComponent.State is PlayerBuildingSingleStructureState);
+
+        }
+
+        [UnityTest]
+        public IEnumerator PlayerStatusPlayerBuildAreaStateTestWithEnumeratorPasses()
+        {
+            yield return new WaitForEndOfFrame(); //awake
+            yield return new WaitForEndOfFrame(); //start
+            gameManagerComponent.State.OnBuildArea(null);
+            yield return new WaitForEndOfFrame();
+            Assert.IsTrue(gameManagerComponent.State is PlayerBuildZoneState);
+
+        }
+
+        [UnityTest]
+        public IEnumerator PlayerStatusPlayerBuildingRoadStateTestWithEnumeratorPasses()
+        {
+            yield return new WaitForEndOfFrame(); //awake
+            yield return new WaitForEndOfFrame(); //start
+            gameManagerComponent.State.OnBuildRoad(null);
+            yield return new WaitForEndOfFrame();
+            Assert.IsTrue(gameManagerComponent.State is PlayerBuildingRoadState);
+
+        }
+
+        [UnityTest]
+        public IEnumerator PlayerStatusPlayerRemoveBuildingStateTestWithEnumeratorPasses()
+        {
+            yield return new WaitForEndOfFrame(); //awake
+            yield return new WaitForEndOfFrame(); //start
+            gameManagerComponent.State.OnDemolishAction();
+            yield return new WaitForEndOfFrame();
+            Assert.IsTrue(gameManagerComponent.State is PlayerRemoveBuildingState);
+
+        }
+
+        [UnityTest]
+        public IEnumerator PlayerStatusPlayerSelectionStateTestWithEnumeratorPasses()
+        {
+            yield return new WaitForEndOfFrame(); //awake
+            yield return new WaitForEndOfFrame(); //start
+            Assert.IsTrue(gameManagerComponent.State is PlayerSelectionState);
+
+        }
     }
 }
