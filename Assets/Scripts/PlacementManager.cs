@@ -18,53 +18,83 @@ public class PlacementManager : MonoBehaviour
 
     public GameObject CreateGhostStructure(Vector3 gridPosition, GameObject buildingPrefab)
     {
-          GameObject newStructure = Instantiate(buildingPrefab, ground.position + gridPosition, Quaternion.identity);
-        foreach (Transform child in newStructure.transform)
+        GameObject newStructure = Instantiate(buildingPrefab, ground.position + gridPosition, Quaternion.identity);
+        Color colorToSet = Color.green;
+        ModifyStructurePrefabLook(newStructure, colorToSet);
+        return newStructure;
+    }
+    private void ModifyStructurePrefabLook(GameObject newStructure, Color colorToSet)
+    {
+        foreach (Transform child in newStructure.transform)//newStructure.transform)
         {
-            var renderer = child.GetComponent<MeshRenderer>();
-            if(originalMaterials.ContainsKey(child.gameObject) == false)
+            var renderer = newStructure.transform.GetComponent<MeshRenderer>();
+            if (originalMaterials.ContainsKey(newStructure.transform.gameObject) == false)
             {
-                originalMaterials.Add(child.gameObject, renderer.materials);
+                originalMaterials.Add(newStructure.transform.gameObject, renderer.materials);
             }
             Material[] materialsToSet = new Material[renderer.materials.Length];
-            for(int i = 0; i < materialsToSet.Length; i++)
+            for (int i = 0; i < materialsToSet.Length; i++)
             {
                 materialsToSet[i] = transparentMaterial;
-                materialsToSet[i].color = Color.green;
+                materialsToSet[i].color = colorToSet;
             }
             renderer.materials = materialsToSet;
         }
-        return newStructure;
     }
-
-    public void ConfirmPlacement(IEnumerable<GameObject> structureCollection)
+    public void PlaceStructureOnTheMap(IEnumerable<GameObject> structureCollection)
     {
         foreach (var structure in structureCollection)
         {
-            foreach (Transform child in structure.transform)
+            ResetBuildingMaterial(structure);
+        }
+        originalMaterials.Clear();
+    }
+
+    public void ResetBuildingMaterial(GameObject structure)
+    {
+        foreach (Transform child in structure.transform)
+        {
+            var renderer = child.GetComponent<MeshRenderer>();
+            if (originalMaterials.ContainsKey(child.gameObject))
             {
-                var renderer = child.GetComponent<MeshRenderer>();
-                if(originalMaterials.ContainsKey(child.gameObject))
-                {
-                    renderer.materials = originalMaterials[child.gameObject];
-                }
+                renderer.materials = originalMaterials[child.gameObject];
             }
         }
     }
 
-    public void RemoveBuilding(Vector3 gridPosition, GridStructure grid)
+    public void DestroyStructures(IEnumerable<GameObject> structureCollection)
     {
-       var structure = grid.GetStructureFromGrid(gridPosition);
-        if (structure != null)
+        foreach(var structure in structureCollection)
         {
-            Debug.Log("Destroy structure");
-            Destroy(structure);
-            if(structure == null) 
-            {
-                Debug.Log("Destroyed!");
-            }
-            grid.RemoveStructureFromTheGrid(gridPosition);
+            DestroySingleStructure(structure);
         }
+        originalMaterials.Clear();
+    }
+
+    public void DestroySingleStructure(GameObject structure)
+    {
+        Destroy(structure);
+    }
+
+    //public void RemoveBuilding(Vector3 gridPosition, GridStructure grid)
+    //{
+    //   var structure = grid.GetStructureFromGrid(gridPosition);
+    //    if (structure != null)
+    //    {
+    //        Debug.Log("Destroy structure");
+    //        Destroy(structure);
+    //        if(structure == null) 
+    //        {
+    //            Debug.Log("Destroyed!");
+    //        }
+    //        grid.RemoveStructureFromTheGrid(gridPosition);
+    //    }
+    //}
+
+    public void SetBuildingForDemolishion(GameObject structureToDemolish)
+    {
+        Color colorToSet = Color.red;
+        ModifyStructurePrefabLook(structureToDemolish, colorToSet);
     }
 }
 

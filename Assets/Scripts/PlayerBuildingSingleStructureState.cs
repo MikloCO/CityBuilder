@@ -26,6 +26,7 @@ public class PlayerBuildingSingleStructureState : PlayerState
     public override void OnConfirmAction()
     {
         this.buildingManager.ConfirmPlacement();
+        base.OnConfirmAction();
     }
 
 
@@ -36,8 +37,7 @@ public class PlayerBuildingSingleStructureState : PlayerState
 
     public override void OnInputPointerDown(Vector3 position)
     {
-        Debug.Log("Single structure");
-        buildingManager.PlaceStructureAt(position, structureName, StructureType.SingleStructure);
+        buildingManager.PrepareStructureForPlacement(position, structureName, StructureType.SingleStructure);
     }
 
     public override void OnInputPointerUp()
@@ -45,8 +45,21 @@ public class PlayerBuildingSingleStructureState : PlayerState
         return;
     }
 
+    public override void OnBuildArea(string structureName)
+    {
+        this.buildingManager.CancelPlacement();
+        base.OnBuildArea(structureName);
+    }
+
+    public override void OnBuildRoad(string structureName)
+    {
+        this.buildingManager.CancelPlacement();
+        base.OnBuildRoad(structureName);
+    }
+
     public override void OnCancel()
     {
+        this.buildingManager.CancelPlacement();
         this.gameManager.TransistionToState(this.gameManager.selectionState, null);
     }
 
