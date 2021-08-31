@@ -25,12 +25,12 @@ public class PlacementManager : MonoBehaviour
     }
     private void ModifyStructurePrefabLook(GameObject newStructure, Color colorToSet)
     {
-        foreach (Transform child in newStructure.transform)//newStructure.transform)
+          foreach (Transform child in newStructure.transform)
         {
-            var renderer = newStructure.transform.GetComponent<MeshRenderer>();
-            if (originalMaterials.ContainsKey(newStructure.transform.gameObject) == false)
+            var renderer = child.GetComponent<MeshRenderer>();
+            if (originalMaterials.ContainsKey(child.gameObject) == false)
             {
-                originalMaterials.Add(newStructure.transform.gameObject, renderer.materials);
+                originalMaterials.Add(child.gameObject, renderer.materials);
             }
             Material[] materialsToSet = new Material[renderer.materials.Length];
             for (int i = 0; i < materialsToSet.Length; i++)
@@ -91,9 +91,10 @@ public class PlacementManager : MonoBehaviour
     //    }
     //}
 
-    public void SetBuildingForDemolishion(GameObject structureToDemolish)
+    public void SetBuildingForDemolition(GameObject structureToDemolish)
     {
         Color colorToSet = Color.red;
+        Debug.Log(colorToSet);
         ModifyStructurePrefabLook(structureToDemolish, colorToSet);
     }
 }

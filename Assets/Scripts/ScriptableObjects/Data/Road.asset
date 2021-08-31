@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Road
   m_EditorClassIdentifier: 
   buildingName: Road
-  prefab: {fileID: 4951702106179778617, guid: 348c377afc5712a46a39f00012ab0060, type: 3}
+  prefab: {fileID: 564093384106922317, guid: aec406bfc2b5ba14aa137b901b63e0d8, type: 3}
   placementCost: 0
   upKeepCost: 0
   income: 0

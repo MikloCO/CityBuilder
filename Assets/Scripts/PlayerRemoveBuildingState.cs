@@ -47,7 +47,6 @@ public class PlayerRemoveBuildingState : PlayerState
 
     public override void OnInputPointerDown(Vector3 position)
     {
-        Debug.Log("Remove");
         this.buidlingManager.PrepareStructureFromDemolishionAt(position);
     }
 

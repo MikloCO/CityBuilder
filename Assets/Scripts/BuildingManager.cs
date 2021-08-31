@@ -56,9 +56,6 @@ public class BuildingManager
             grid.PlaceStructureOnTheGrid(keyValuePair.Value, keyValuePair.Key);
         }
         structureToBemodified.Clear();
-        
-
-
     }
 
     public void CancelPlacement()
@@ -73,7 +70,7 @@ public class BuildingManager
         if (grid.bIsCellTaken(gridPosition))
         {
             var gridPositionInt = Vector3Int.FloorToInt(gridPosition);
-            var structure = grid.GetStructureFromGrid(gridPositionInt);
+            var structure = grid.GetStructureFromGrid(gridPosition);
             if (structureToBemodified.ContainsKey(gridPositionInt))
             {
                 RevokeStructureDemolishionAt(gridPositionInt, structure);
@@ -88,7 +85,7 @@ public class BuildingManager
     private void AddStructureForDemolishion(Vector3Int gridPositionInt, GameObject structure)
     {
         structureToBemodified.Add(gridPositionInt, structure);
-        placementManger.SetBuildingForDemolishion(structure);
+        placementManger.SetBuildingForDemolition(structure);
     }
 
     private void RevokeStructureDemolishionAt(Vector3Int gridPositionInt, GameObject structure)
@@ -111,5 +108,26 @@ public class BuildingManager
         }
         this.placementManger.DestroyStructures(structureToBemodified.Values);
         structureToBemodified.Clear();
+    }
+
+    public GameObject CheckForStructureInGrid(Vector3 inputPosition)
+    {
+        Vector3 gridposition = grid.CalculateGridPosition(inputPosition);
+        if(grid.bIsCellTaken(gridposition))
+        {
+            return grid.GetStructureFromGrid(gridposition);
+        }
+        return null;
+    }
+
+    public GameObject CheckForStructureInDictionary(Vector3 inputPosition)
+    {
+        Vector3 gridPosition = grid.CalculateGridPosition(inputPosition);
+        var gridPositionInt = Vector3Int.FloorToInt(gridPosition);
+        if(structureToBemodified.ContainsKey(gridPositionInt))
+        {
+            return structureToBemodified[gridPositionInt];
+        }
+        return null;
     }
 }

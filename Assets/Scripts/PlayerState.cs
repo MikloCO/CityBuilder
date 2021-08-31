@@ -17,25 +17,13 @@ public abstract class PlayerState
         this.gameManager.TransistionToState(this.gameManager.selectionState, null);
     }
 
-    public virtual void OnInputPointerDown(Vector3 position)
-    {
+    public virtual void OnInputPointerDown(Vector3 position) { }
 
-    }
+    public virtual void OnInputPointerChange(Vector3 position) { }
 
-    public virtual void OnInputPointerChange(Vector3 position)
-    {
+    public virtual void OnInputPointerUp() { }
 
-    }
-
-    public virtual void OnInputPointerUp()
-    {
-
-    }
-
-    public virtual void EnterState(string variable)
-    {
-
-    }
+    public virtual void EnterState(string variable) { }
 
     public abstract void OnCancel();
 

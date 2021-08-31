@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PowerPlant
   m_EditorClassIdentifier: 
   buildingName: Powerplant
-  prefab: {fileID: 7687962994768176559, guid: b0d3c33d6fd21fa448c5998a0ff5b818, type: 3}
+  prefab: {fileID: 3637943447183480026, guid: 757d130d508045644a4d77a8edec9448, type: 3}
   placementCost: 0
   upKeepCost: 0
   income: 0
