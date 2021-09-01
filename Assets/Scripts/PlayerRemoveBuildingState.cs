@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class PlayerRemoveBuildingState : PlayerState
 {
-    BuildingManager buidlingManager;
+    BuildingManager buildingManager;
     public PlayerRemoveBuildingState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
     {
-        this.buidlingManager = buildingManager;
+        this.buildingManager = buildingManager;
     }
 
     public override void OnCancel()
     {
-        this.buidlingManager.CancelDemolishion();
+        this.buildingManager.CancelDemolishion();
         this.gameManager.TransistionToState(this.gameManager.selectionState, null);
     }
 
     public override void OnConfirmAction()
     {
-        this.buidlingManager.ConfirmDemolishion();
+        this.buildingManager.ConfirmDemolishion();
         base.OnConfirmAction();
     }
 
@@ -29,29 +29,34 @@ public class PlayerRemoveBuildingState : PlayerState
 
     public override void OnBuildArea(string structureName)
     {
-        this.buidlingManager.CancelDemolishion();
+        this.buildingManager.CancelDemolishion();
         base.OnBuildArea(structureName);
     }
 
     public override void OnBuildRoad(string structureName)
     {
-        this.buidlingManager.CancelDemolishion();
+        this.buildingManager.CancelDemolishion();
         base.OnBuildRoad(structureName);
     }
 
     public override void OnBuildSingleStructure(string structureName)
     {
-        this.buidlingManager.CancelDemolishion();
+        this.buildingManager.CancelDemolishion();
         base.OnBuildSingleStructure(structureName);
     }
 
     public override void OnInputPointerDown(Vector3 position)
     {
-        this.buidlingManager.PrepareStructureFromDemolishionAt(position);
+        this.buildingManager.PrepareStructureFromDemolishionAt(position);
     }
 
     public override void OnInputPointerUp()
     {
         return;
+    }
+
+    public override void EnterState(string variable)
+    {
+        this.buildingManager.PrepareBuildingManager(this.GetType());
     }
 }

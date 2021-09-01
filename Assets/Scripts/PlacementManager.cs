@@ -3,18 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlacementManager : MonoBehaviour
+public class PlacementManager : MonoBehaviour, IPlacementManager
 {
     public Transform ground;
 
     public Material transparentMaterial;
     private Dictionary<GameObject, Material[]> originalMaterials = new Dictionary<GameObject, Material[]>();
-
-    //public void CreateBuilding(Vector3 gridPosition, GridStructure grid, GameObject buildingPrefab)
-    //{
-    //    GameObject newStructure = Instantiate(buildingPrefab, ground.position + gridPosition, Quaternion.identity);
-    //    grid.PlaceStructureOnTheGrid(newStructure, gridPosition);
-    //}
 
     public GameObject CreateGhostStructure(Vector3 gridPosition, GameObject buildingPrefab)
     {
@@ -25,7 +19,7 @@ public class PlacementManager : MonoBehaviour
     }
     private void ModifyStructurePrefabLook(GameObject newStructure, Color colorToSet)
     {
-          foreach (Transform child in newStructure.transform)
+        foreach (Transform child in newStructure.transform)
         {
             var renderer = child.GetComponent<MeshRenderer>();
             if (originalMaterials.ContainsKey(child.gameObject) == false)
@@ -45,12 +39,12 @@ public class PlacementManager : MonoBehaviour
     {
         foreach (var structure in structureCollection)
         {
-            ResetBuildingMaterial(structure);
+            ResetBuildingLook(structure);
         }
         originalMaterials.Clear();
     }
 
-    public void ResetBuildingMaterial(GameObject structure)
+    public void ResetBuildingLook(GameObject structure)
     {
         foreach (Transform child in structure.transform)
         {
@@ -64,7 +58,7 @@ public class PlacementManager : MonoBehaviour
 
     public void DestroyStructures(IEnumerable<GameObject> structureCollection)
     {
-        foreach(var structure in structureCollection)
+        foreach (var structure in structureCollection)
         {
             DestroySingleStructure(structure);
         }

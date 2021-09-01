@@ -14,38 +14,38 @@ public class PlayerBuildingRoadState : PlayerState
     }
     public override void OnCancel()
     {
-        this.buildingManager.CancelPlacement();
+        this.buildingManager.CancelModification();
         this.gameManager.TransistionToState(this.gameManager.selectionState, null);
     }
 
     public override void OnBuildArea(string structureName)
     {
         base.OnBuildArea(structureName);
-        this.buildingManager.CancelPlacement();
+        this.buildingManager.CancelModification();
     }
 
     public override void OnBuildSingleStructure(string structureName)
     {
         base.OnBuildSingleStructure(structureName);
-        this.buildingManager.CancelPlacement();
+        this.buildingManager.CancelModification();
     }
 
     public override void OnConfirmAction()
     {
-        this.buildingManager.ConfirmPlacement();
+        this.buildingManager.ConfirmModification();
         base.OnConfirmAction();
   
     }
 
     public override void EnterState(string structureName)
     {
-        base.EnterState(structureName);
+        this.buildingManager.PrepareBuildingManager(this.GetType());
         this.structureName = structureName;
     }
 
     public override void OnInputPointerDown(Vector3 position)
     {
  
-        buildingManager.PrepareStructureForPlacement(position, this.structureName, StructureType.Road);
+        buildingManager.PrepareStructureForModification(position, this.structureName, StructureType.Road);
     }
 }
