@@ -17,14 +17,12 @@ public class BuildingManager
         this.placementManger = placementManger;
         this.structureRepository = structureRepository;
         this.helperFactory = new StructureModificationFactory(structureRepository, grid, placementManger);
-
     }
 
     public void PrepareBuildingManager(Type classType)
     {
         helper = helperFactory.GetHelper(classType);
     }
-
 
     public void ConfirmModification()
     {
@@ -35,18 +33,6 @@ public class BuildingManager
     {
         helper.CancelModification();
     }
-
-    //private void RevokeStructurePlacementAt(Vector3Int gridPositionInt)
-    //{
-    //    var structure = structureToBemodified[gridPositionInt];
-    //    placementManger.DestroySingleStructure(structure);
-    //    structureToBemodified.Remove(gridPositionInt);
-    //}
-
-    //private void PlaceNewStructureAt(GameObject buildingPrefab, Vector3 gridPosition, Vector3Int gridPositionInt)
-    //{
-    //    structureToBemodified.Add(gridPositionInt, placementManger.CreateGhostStructure(gridPosition, buildingPrefab));
-    //}
 
     public void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
     {

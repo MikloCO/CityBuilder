@@ -6,14 +6,16 @@ using UnityEngine;
 public class Cell
 {
     GameObject structureModel = null;
+    StructureBaseSO structureData;
     bool isTaken = false;
 
     public bool IsTaken { get => isTaken; }
 
-    public void SetConstruction(GameObject structureModel)
+    public void SetConstruction(GameObject structureModel, StructureBaseSO structureData)
     {
         if (structureModel == null)
             return;
+        this.structureData = structureData;
         this.structureModel = structureModel;
         this.isTaken = true;
     }
@@ -27,5 +29,11 @@ public class Cell
     {
         structureModel = null;
         isTaken = false;
+        structureData = null;
+    }
+
+    public StructureBaseSO GetStructureData()
+    {
+        return structureData;
     }
 }

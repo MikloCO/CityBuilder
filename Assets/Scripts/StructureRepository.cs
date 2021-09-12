@@ -7,17 +7,6 @@ using UnityEngine;
 public class StructureRepository : MonoBehaviour
 {
     public CollectionSO modelDataCollection;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public List<string> GetZoneNames()
     {
         return modelDataCollection.zonesList.Select(zone => zone.buildingName).ToList();
@@ -69,6 +58,22 @@ public class StructureRepository : MonoBehaviour
         if(foundstructure != null)
         {
             return foundstructure.prefab;
+        }
+        return null;
+    }
+
+    public StructureBaseSO GetStructureData(string structureName, StructureType structureType)
+    {
+        switch (structureType)
+        {
+            case StructureType.Zone:
+                return modelDataCollection.zonesList.Where(structure => structure.buildingName == structureName).FirstOrDefault();
+            case StructureType.SingleStructure:
+                return modelDataCollection.singleStructureList.Where(structure => structure.buildingName == structureName).FirstOrDefault();
+            case StructureType.Road:
+                return modelDataCollection.roadStructure;
+            case StructureType.None:
+                return null;
         }
         return null;
     }

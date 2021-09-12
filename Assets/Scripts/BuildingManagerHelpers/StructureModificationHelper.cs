@@ -8,6 +8,7 @@ public abstract class StructureModificationHelper
     protected readonly GridStructure grid;
     protected readonly IPlacementManager placementManger;
     protected readonly StructureRepository structureRepository;
+    protected StructureBaseSO structureData;
 
     public StructureModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger)
     {
@@ -27,9 +28,35 @@ public abstract class StructureModificationHelper
     }
 
 
-    public abstract void CancelModification();
-    public abstract void ConfirmModification();
-    public abstract void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType);
+    public virtual void ConfirmModification()
+    {
+        placementManger.PlaceStructureOnTheMap(structureToBemodified.Values);
+
+        foreach (var keyValuePair in structureToBemodified)
+        {
+            grid.PlaceStructureOnTheGrid(keyValuePair.Value, keyValuePair.Key, GameObject.Instantiate(structureData));
+        }
+        ResetHelpersData();
+    }
+
+
+    public virtual void CancelModification()
+    {
+        placementManger.DestroyStructures(structureToBemodified.Values);
+        ResetHelpersData();
+    }
+    public virtual void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
+    {
+        if(structureData == null && structureType!= StructureType.None)
+        {
+            structureData = this.structureRepository.GetStructureData(structureName, structureType);
+        }
+    }
+    private void ResetHelpersData()
+    {
+        structureToBemodified.Clear();
+        structureData = null;
+    }
 
 
 }

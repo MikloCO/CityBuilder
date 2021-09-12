@@ -52,7 +52,7 @@ namespace Tests
             Vector3 returnPosition = structure.CalculateGridPosition(position);
             GameObject testGameObject = new GameObject("TestGameObject");
 
-            structure.PlaceStructureOnTheGrid(testGameObject, position);
+            structure.PlaceStructureOnTheGrid(testGameObject, position, null);
             Assert.IsTrue(structure.bIsCellTaken(position));
         }
    
@@ -63,7 +63,7 @@ namespace Tests
             Vector3 returnPosition = structure.CalculateGridPosition(position);
             GameObject testGameObject = new GameObject("TestGameObject");
             
-            structure.PlaceStructureOnTheGrid(testGameObject, position);
+            structure.PlaceStructureOnTheGrid(testGameObject, position, null);
             Assert.IsTrue(structure.bIsCellTaken(position));
         }
 
@@ -74,7 +74,7 @@ namespace Tests
             Vector3 returnposition = structure.CalculateGridPosition(position);
             GameObject testGameObject = new GameObject("TestGameObject");
 
-            structure.PlaceStructureOnTheGrid(testGameObject, returnposition);
+            structure.PlaceStructureOnTheGrid(testGameObject, returnposition, null);
             Assert.IsTrue(structure.bIsCellTaken(position));
         }
 
@@ -86,7 +86,7 @@ namespace Tests
             Vector3 returnPosition = structure.CalculateGridPosition(position);
             GameObject testGameObject = null;
             
-            structure.PlaceStructureOnTheGrid(testGameObject, returnPosition);
+            structure.PlaceStructureOnTheGrid(testGameObject, returnPosition, null);
             Assert.IsTrue(structure.bIsCellTaken(position)); //Might not work properly. 
         }
 
