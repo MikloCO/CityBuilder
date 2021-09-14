@@ -20,9 +20,10 @@ MonoBehaviour:
   requireRoadAccess: 0
   requirePower: 0
   requireWater: 0
-  cornerPrefab: {fileID: -927199367670048503, guid: 81d435892f536b544953972152ff6d47,
+  cornerPrefab: {fileID: 8256871742259763466, guid: f6364212791d1fd4990dd58550be9177,
     type: 3}
-  threeWayPrefab: {fileID: -927199367670048503, guid: d29860211dd7afe4fa43d32102212973,
+  threeWayPrefab: {fileID: 8194902891112128789, guid: 5a34b3a091a2eb14c91a3fa3aa544667,
     type: 3}
-  FourWayPrefab: {fileID: -927199367670048503, guid: 50317b8be13cd95468100cde547ce4bc,
+  FourWayPrefab: {fileID: 2471394480111234715, guid: cb0f0b271e302774082e26bd789c0c08,
     type: 3}
+  prefabRotation: 0

@@ -10,13 +10,41 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
     public Material transparentMaterial;
     private Dictionary<GameObject, Material[]> originalMaterials = new Dictionary<GameObject, Material[]>();
 
-    public GameObject CreateGhostStructure(Vector3 gridPosition, GameObject buildingPrefab)
+    public GameObject CreateGhostStructure(Vector3 gridPosition, GameObject buildingPrefab, RotationValue rotationValue = RotationValue.R0)
     {
-        GameObject newStructure = Instantiate(buildingPrefab, ground.position + gridPosition, Quaternion.identity);
+        GameObject newStructure = PlaceStructureOnTheMap(gridPosition, buildingPrefab, rotationValue);
         Color colorToSet = Color.green;
         ModifyStructurePrefabLook(newStructure, colorToSet);
         return newStructure;
     }
+
+    public GameObject PlaceStructureOnTheMap(Vector3 gridPosition, GameObject buildingPrefab, RotationValue rotationValue)
+    {
+        GameObject newStructure = Instantiate(buildingPrefab, ground.position + gridPosition, Quaternion.identity);
+        Vector3 rotation = Vector3.zero;
+        switch (rotationValue)
+        {
+            case RotationValue.R0:
+                break;
+            case RotationValue.R90:
+                rotation = new Vector3(0, 90, 0);
+                break;
+            case RotationValue.R180:
+                rotation = new Vector3(0, 180, 0);
+                break;
+            case RotationValue.R270:
+                rotation = new Vector3(0, 270, 0);
+                break;
+            default:
+                break;
+        }
+        foreach (Transform child in newStructure.transform)
+        {
+            child.Rotate(rotation, Space.World);
+        }
+        return newStructure;
+    }
+
     private void ModifyStructurePrefabLook(GameObject newStructure, Color colorToSet)
     {
         foreach (Transform child in newStructure.transform)
@@ -91,5 +119,10 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
         Debug.Log(colorToSet);
         ModifyStructurePrefabLook(structureToDemolish, colorToSet);
     }
+
+    //public GameObject CreateGhostStructure(Vector3 gridPosition, GameObject buildingPrefab)
+    //{
+    //    throw new NotImplementedException();
+    //}
 }
 

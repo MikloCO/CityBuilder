@@ -11,10 +11,9 @@ public static class RoadManager
         foreach (Direction direction in Enum.GetValues(typeof(Direction)))
         {
             var neighbourPosition = grid.GetPositionOfTheNeighbourIfExists(gridPosition, direction);
-            if (neighbourPosition.HasValue && grid.bIsCellTaken(neighbourPosition.Value))
+            if(neighbourPosition.HasValue)
             {
-                var neighbourStructureData = grid.GetDataStructureFromTheGrid(neighbourPosition.Value);
-                if (neighbourStructureData != null || CheckDictionaryForRoadAtNeighbour(neighbourPosition.Value, structureToBemodified))
+                if(CheckIfNeighbourIsRoadOnTheGrid(grid, neighbourPosition) || CheckIfRoadNeighbourIsInDictionary(neighbourPosition, structureToBemodified))
                 {
                     roadNeighbourStatus += (int)direction;
                 }
@@ -23,28 +22,90 @@ public static class RoadManager
         return roadNeighbourStatus;
     }
 
+    public static bool CheckIfNeighbourIsRoadOnTheGrid(GridStructure grid, Vector3Int? neighbourPosition)
+    {
+        if (grid.bIsCellTaken(neighbourPosition.Value))
+        {
+            var neighbourStructureData = grid.GetStructureFromGrid(neighbourPosition.Value);
+            if (neighbourStructureData != null && neighbourStructureData.GetType() == typeof(RoadStructureSO))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static bool CheckIfRoadNeighbourIsInDictionary(Vector3Int? neighbourPosition, Dictionary<Vector3Int, GameObject> structureToBeModified)
+    {
+        return CheckDictionaryForRoadAtNeighbour(neighbourPosition.Value, structureToBeModified);
+    }
+
     public static bool CheckDictionaryForRoadAtNeighbour(Vector3Int value, Dictionary<Vector3Int, GameObject> structureToBemodified)
     {
         return structureToBemodified.ContainsKey(value);
     }
 
-    internal static RoadStructureHelper CheckIfStraighRoadFits(int neighbourStatus, RoadStructureHelper roadToReturn)
+    internal static RoadStructureHelper CheckIfStraighRoadFits(int neighbourStatus, RoadStructureHelper roadToReturn, StructureBaseSO structureData)
     {
-        throw new NotImplementedException();
+       if(neighbourStatus == ((int)Direction.Up | (int)Direction.Down) || neighbourStatus == (int)Direction.Up || neighbourStatus == (int)Direction.Down)
+        {
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).prefab, RotationValue.R90);
+        }
+       else if(neighbourStatus == ((int)Direction.Right | (int)Direction.Left) || neighbourStatus == (int)Direction.Right 
+       || neighbourStatus == (int)Direction.Left || neighbourStatus == 0)
+        {
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).prefab, RotationValue.R0);
+        }
+        return roadToReturn;
     }
 
-    internal static RoadStructureHelper CheckifCornerFits(int neighbourStatus, RoadStructureHelper roadToReturn)
+    internal static RoadStructureHelper CheckifCornerFits(int neighbourStatus, RoadStructureHelper roadToReturn, StructureBaseSO structureData)
     {
-        throw new NotImplementedException();
+        if(neighbourStatus == ((int)Direction.Up | (int)Direction.Right))
+        {
+                roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).cornerPrefab, RotationValue.R0);
+        }
+        else if(neighbourStatus == ((int)Direction.Down | (int)Direction.Right))
+        {
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).cornerPrefab, RotationValue.R90);
+        }
+        else if (neighbourStatus == ((int)Direction.Down | (int)Direction.Left))
+        {
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).cornerPrefab, RotationValue.R180);
+        }
+        else if (neighbourStatus == ((int)Direction.Up | (int)Direction.Left)) // might be (int)Direction.Right instead.
+        {
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).cornerPrefab, RotationValue.R270);
+        }
+        return roadToReturn;
     }
 
-    internal static RoadStructureHelper CheckifWayFits(int neighbourStatus, RoadStructureHelper roadToReturn)
+    internal static RoadStructureHelper CheckifThreeWayFits(int neighbourStatus, RoadStructureHelper roadToReturn, StructureBaseSO structureData)
     {
-        throw new NotImplementedException();
+        if (neighbourStatus == ((int)Direction.Up | (int)Direction.Right | (int)Direction.Down))
+        {
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).threeWayPrefab, RotationValue.R0);
+        }
+        else if (neighbourStatus == ((int)Direction.Left | (int)Direction.Up | (int)Direction.Right))
+        {
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).threeWayPrefab, RotationValue.R270);
+        }
+        else if (neighbourStatus == ((int)Direction.Down | (int)Direction.Left | (int)Direction.Up))
+        {
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).threeWayPrefab, RotationValue.R180);
+        }
+        else if (neighbourStatus == ((int)Direction.Right | (int)Direction.Down | (int)Direction.Left)) // might be (int)Direction.Right instead.
+        {
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).threeWayPrefab, RotationValue.R90);
+        }
+        return roadToReturn;
     }
 
-    internal static RoadStructureHelper CheckIfFourWaysFit(int neighbourStatus, RoadStructureHelper roadToReturn)
+    internal static RoadStructureHelper CheckIfFourWaysFit(int neighbourStatus, RoadStructureHelper roadToReturn, StructureBaseSO structureData)
     {
-        throw new NotImplementedException();
+        if (neighbourStatus == ((int)Direction.Up | (int)Direction.Right | (int)Direction.Down | (int)Direction.Left))
+        {
+            roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).FourWayPrefab, RotationValue.R0);
+        }
+        return roadToReturn;
     }
 }
