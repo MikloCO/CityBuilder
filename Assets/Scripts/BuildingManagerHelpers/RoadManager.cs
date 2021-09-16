@@ -36,14 +36,8 @@ public static class RoadManager
     }
     public static bool CheckIfRoadNeighbourIsInDictionary(Vector3Int? neighbourPosition, Dictionary<Vector3Int, GameObject> structureToBeModified)
     {
-        return CheckDictionaryForRoadAtNeighbour(neighbourPosition.Value, structureToBeModified);
+        return structureToBeModified.ContainsKey(neighbourPosition.Value);
     }
-
-    public static bool CheckDictionaryForRoadAtNeighbour(Vector3Int value, Dictionary<Vector3Int, GameObject> structureToBemodified)
-    {
-        return structureToBemodified.ContainsKey(value);
-    }
-
     internal static RoadStructureHelper CheckIfStraighRoadFits(int neighbourStatus, RoadStructureHelper roadToReturn, StructureBaseSO structureData)
     {
        if(neighbourStatus == ((int)Direction.Up | (int)Direction.Down) || neighbourStatus == (int)Direction.Up || neighbourStatus == (int)Direction.Down)
@@ -72,7 +66,7 @@ public static class RoadManager
         {
             roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).cornerPrefab, RotationValue.R180);
         }
-        else if (neighbourStatus == ((int)Direction.Up | (int)Direction.Left)) // might be (int)Direction.Right instead.
+        else if (neighbourStatus == ((int)Direction.Up | (int)Direction.Left)) 
         {
             roadToReturn = new RoadStructureHelper(((RoadStructureSO)structureData).cornerPrefab, RotationValue.R270);
         }
