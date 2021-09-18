@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlacementManager : MonoBehaviour, IPlacementManager
 {
     public Transform ground;
-
     public Material transparentMaterial;
     private Dictionary<GameObject, Material[]> originalMaterials = new Dictionary<GameObject, Material[]>();
 
@@ -99,31 +98,23 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
         Destroy(structure);
     }
 
-    //public void RemoveBuilding(Vector3 gridPosition, GridStructure grid)
-    //{
-    //   var structure = grid.GetStructureFromGrid(gridPosition);
-    //    if (structure != null)
-    //    {
-    //        Debug.Log("Destroy structure");
-    //        Destroy(structure);
-    //        if(structure == null) 
-    //        {
-    //            Debug.Log("Destroyed!");
-    //        }
-    //        grid.RemoveStructureFromTheGrid(gridPosition);
-    //    }
-    //}
 
     public void SetBuildingForDemolition(GameObject structureToDemolish)
     {
         Color colorToSet = Color.red;
-        Debug.Log(colorToSet);
         ModifyStructurePrefabLook(structureToDemolish, colorToSet);
     }
 
-    //public GameObject CreateGhostStructure(Vector3 gridPosition, GameObject buildingPrefab)
-    //{
-    //    throw new NotImplementedException();
-    //}
+    public GameObject MoveStructureOnTheMap(Vector3Int positionToPlaceStructure, GameObject gameObjectToReuse, GameObject prefab)
+    {
+        gameObjectToReuse.transform.position = positionToPlaceStructure;
+        gameObjectToReuse.transform.rotation = prefab.transform.rotation;
+
+        for (int i = 0; i < gameObjectToReuse.transform.childCount; i++)
+        {
+            gameObjectToReuse.transform.GetChild(i).rotation = prefab.transform.GetChild(i).rotation;
+        }
+        return gameObjectToReuse;
+    }
 }
 

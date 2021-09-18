@@ -52,6 +52,20 @@ public class GridStructure
             grid[cellIndex.y, cellIndex.x].SetConstruction(structure, structureData);
     }
 
+    public HashSet<Vector3Int> GetAllPositionsFromTo(Vector3Int minPoint, Vector3Int maxPoint)
+    {
+        HashSet<Vector3Int> positionsToReturn = new HashSet<Vector3Int>();
+        for (int row = minPoint.z; row <= maxPoint.z; row++)
+        {
+            for (int col = minPoint.x; col <= maxPoint.x; col++)
+            {
+                Vector3 gridPosition = CalculateGridPosition(new Vector3(col, 0, row));
+                positionsToReturn.Add(Vector3Int.FloorToInt(gridPosition));
+            }
+        }
+        return positionsToReturn;
+    }
+
     public GameObject GetStructureFromGrid(Vector3 gridPosition)
     {
         var cellIndex = CalculateGridIndex(gridPosition);
@@ -80,30 +94,28 @@ public class GridStructure
 
     public Vector3Int? GetPositionOfTheNeighbourIfExists(Vector3 gridPosition, Direction direction)
     {
-        Vector3Int? NeighbourPosition = Vector3Int.FloorToInt(gridPosition);
+        Vector3Int? neighbourPosition = Vector3Int.FloorToInt(gridPosition);
         switch (direction)
         {
             case Direction.Up:
-                NeighbourPosition += new Vector3Int(0, 0, cellSize);
+                neighbourPosition += new Vector3Int(0, 0, cellSize);
                 break;
             case Direction.Right:
-                NeighbourPosition += new Vector3Int(cellSize, 0, 0);
+                neighbourPosition += new Vector3Int(cellSize, 0, 0);
                 break;
             case Direction.Down:
-                NeighbourPosition += new Vector3Int(0, 0, -cellSize);
+                neighbourPosition += new Vector3Int(0, 0, -cellSize);
                 break;
             case Direction.Left:
-                NeighbourPosition += new Vector3Int(-cellSize, 0, 0);
-                break;
-            default:
+                neighbourPosition += new Vector3Int(-cellSize, 0, 0);
                 break;
         }
-        var index = CalculateGridIndex(NeighbourPosition.Value);
-        if(bCellIsValid(index) == false)
+        var index = CalculateGridIndex(neighbourPosition.Value);
+        if (bCellIsValid(index) == false)
         {
             return null;
         }
-        return NeighbourPosition;
+        return neighbourPosition;
     }
 }
 

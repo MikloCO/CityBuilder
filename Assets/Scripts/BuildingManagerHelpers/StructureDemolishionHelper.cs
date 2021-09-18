@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StructureDemolishionHelper : StructureModificationHelper
 {
+    Dictionary<Vector3Int, GameObject> roadToDemolish = new Dictionary<Vector3Int, GameObject>();
     public StructureDemolishionHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger) : base(structureRepository, grid, placementManger)
     {
     }
@@ -19,6 +21,18 @@ public class StructureDemolishionHelper : StructureModificationHelper
         {
             grid.RemoveStructureFromTheGrid(gridPosition);
         }
+
+        foreach (var keyValuePair in roadToDemolish)
+        {
+            Dictionary<Vector3Int, GameObject> neighboursDictionary = RoadManager.GetRoadNeighbourForPosition(grid, keyValuePair.Key);
+            if(neighboursDictionary.Count > 0)
+            {
+                var structureData = grid.GetDataStructureFromTheGrid(neighboursDictionary.Keys.First());
+                RoadManager.ModifyRoadCellsOnTheGrid(neighboursDictionary, structureData, null, grid, placementManger);
+
+            }
+        }
+
         this.placementManger.DestroyStructures(structureToBemodified.Values);
         structureToBemodified.Clear();
     }
@@ -41,16 +55,24 @@ public class StructureDemolishionHelper : StructureModificationHelper
         }
     }
 
-    private void RevokeStructureDemolishionAt(Vector3Int gridPositionInt, GameObject structure)
-    {
-        placementManger.ResetBuildingLook(structure);
-        structureToBemodified.Remove(gridPositionInt);
-    }
 
 
     private void AddStructureForDemolishion(Vector3Int gridPositionInt, GameObject structure)
     {
         structureToBemodified.Add(gridPositionInt, structure);
         placementManger.SetBuildingForDemolition(structure);
+        if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, gridPositionInt) && roadToDemolish.ContainsKey(gridPositionInt) == false)
+        {
+            roadToDemolish.Add(gridPositionInt, structure);
+        }
+    }
+    private void RevokeStructureDemolishionAt(Vector3Int gridPositionInt, GameObject structure)
+    {
+        placementManger.ResetBuildingLook(structure);
+        structureToBemodified.Remove(gridPositionInt);
+        if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, gridPositionInt) && roadToDemolish.ContainsKey(gridPositionInt))
+        {
+            roadToDemolish.Remove(gridPositionInt);
+        }
     }
 }

@@ -18,7 +18,7 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
         if (grid.bIsCellTaken(gridPosition) == false)
         {
             var gridPositionInt = Vector3Int.FloorToInt(gridPosition);
-            var roadStructure = GetCorrectRoadPrefab(gridPosition);
+            var roadStructure = GetCorrectRoadPrefab(gridPosition, structureData);
             if (structureToBemodified.ContainsKey(gridPositionInt))
             {
                 RevokePlacementAt(gridPositionInt);
@@ -27,11 +27,11 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
             {
                 PlaceNewRoadAt(roadStructure, gridPosition, gridPositionInt);
             }
-            AdjustNeighboursIfRiadsStructures(gridPosition);
+            AdjustNeighboursIfRoadsStructures(gridPosition);
         }
     }
 
-    private void AdjustNeighboursIfRiadsStructures(Vector3 gridPosition)
+    private void AdjustNeighboursIfRoadsStructures(Vector3 gridPosition)
     {
         AdjustNeighbourIfRoad(gridPosition, Direction.Up);
         AdjustNeighbourIfRoad(gridPosition, Direction.Down);
@@ -42,11 +42,12 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
     private void AdjustNeighbourIfRoad(Vector3 gridPosition, Direction direction)
     {
         var neighbourGridPosition = grid.GetPositionOfTheNeighbourIfExists(gridPosition, direction);
-        if(neighbourGridPosition.HasValue)
+        if (neighbourGridPosition.HasValue)
         {
             var neighbourPositionInt = neighbourGridPosition.Value;
             AdjustStructureIfIsInDictionary(neighbourGridPosition, neighbourPositionInt);
             AdjustStructureIfIsOnGrid(neighbourGridPosition, neighbourPositionInt);
+
         }
     }
 
@@ -54,8 +55,8 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
     {
         if (RoadManager.CheckIfNeighbourIsRoadOnTheGrid(grid, neighbourPositionInt))
         {
-            var neighboursStructureData = grid.GetDataStructureFromTheGrid(neighbourGridPosition.Value);
-            if (neighboursStructureData != null && neighboursStructureData.GetType() == typeof(RoadStructureSO) && existingRoadStructuresToModify.ContainsKey(neighbourPositionInt) == false)
+            var neighbourStructureData = grid.GetDataStructureFromTheGrid(neighbourGridPosition.Value);
+            if (neighbourStructureData != null && neighbourStructureData.GetType() == typeof(RoadStructureSO) && existingRoadStructuresToModify.ContainsKey(neighbourPositionInt) == false)
             {
                 existingRoadStructuresToModify.Add(neighbourPositionInt, grid.GetStructureFromGrid(neighbourGridPosition.Value));
             }
@@ -67,12 +68,12 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
         if (RoadManager.CheckIfRoadNeighbourIsInDictionary(neighbourPositionInt, structureToBemodified))
         {
             RevokePlacementAt(neighbourPositionInt);
-            var neighbourStructure = GetCorrectRoadPrefab(neighbourGridPosition.Value);
+            var neighbourStructure = GetCorrectRoadPrefab(neighbourGridPosition.Value, structureData);
             PlaceNewRoadAt(neighbourStructure, neighbourGridPosition.Value, neighbourPositionInt);
         }
     }
 
-    private void PlaceNewRoadAt(RoadStructureHelper roadStructure, Vector3 gridPosition, Vector3Int gridPositionInt)
+    private void PlaceNewRoadAt(RoadStructureHelper roadStructure, Vector3 gridPosition, Vector3Int gridPositionInt) //diff
     {
         structureToBemodified.Add(gridPositionInt, placementManger.CreateGhostStructure(gridPosition, roadStructure.RoadPrefab, roadStructure.RoadPrefabRotation));
     }
@@ -84,30 +85,6 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
         structureToBemodified.Remove(gridPositionInt);
     }
 
-    private RoadStructureHelper GetCorrectRoadPrefab(Vector3 gridPosition)
-    {
-        var neighbourStatus = RoadManager.getRoadNeighbourStatus(gridPosition, grid, structureToBemodified);
-        RoadStructureHelper roadToReturn = null;
-
-        roadToReturn = RoadManager.CheckIfStraighRoadFits(neighbourStatus, roadToReturn, structureData);
-        if(roadToReturn != null)
-        {
-            return roadToReturn;
-        }
-        roadToReturn = RoadManager.CheckifCornerFits(neighbourStatus, roadToReturn, structureData);
-        if (roadToReturn != null)
-        {
-            return roadToReturn;
-        }
-        roadToReturn = RoadManager.CheckifThreeWayFits(neighbourStatus, roadToReturn, structureData);
-        if (roadToReturn != null)
-        {
-            return roadToReturn;
-        }
-        roadToReturn = RoadManager.CheckIfFourWaysFit(neighbourStatus, roadToReturn, structureData);
-        return roadToReturn;
-    }
-
     public override void CancelModification()
     {
         base.CancelModification();
@@ -116,16 +93,41 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
 
     public override void ConfirmModification()
     {
-        foreach (var keyValuePair in existingRoadStructuresToModify)
+        ModifyRoadCellsOnTheGrid(existingRoadStructuresToModify, structureData);
+      
+        base.ConfirmModification();
+    }
+
+    public void ModifyRoadCellsOnTheGrid(Dictionary<Vector3Int, GameObject> neighboursDictionar, StructureBaseSO structureData)
+    {
+        foreach (var keyValuePair in neighboursDictionar)
         {
             grid.RemoveStructureFromTheGrid(keyValuePair.Key);
             placementManger.DestroySingleStructure(keyValuePair.Value);
-            var roadStructure = GetCorrectRoadPrefab(keyValuePair.Key);
+            var roadStructure = GetCorrectRoadPrefab(keyValuePair.Key, structureData);
             var structure = placementManger.PlaceStructureOnTheMap(keyValuePair.Key, roadStructure.RoadPrefab, roadStructure.RoadPrefabRotation);
             grid.PlaceStructureOnTheGrid(structure, keyValuePair.Key, structureData);
         }
-        existingRoadStructuresToModify.Clear();
-        base.ConfirmModification();
+        neighboursDictionar.Clear();
+    }
+
+
+    private RoadStructureHelper GetCorrectRoadPrefab(Vector3 gridPosition, StructureBaseSO structureData)
+    {
+        var neighboursStatus = RoadManager.getRoadNeighbourStatus(gridPosition, grid, structureToBemodified);
+        RoadStructureHelper roadToReturn = null;
+        roadToReturn = RoadManager.CheckIfStraighRoadFits(neighboursStatus, roadToReturn, structureData);
+
+        if (roadToReturn != null)
+            return roadToReturn;
+        roadToReturn = RoadManager.CheckifCornerFits(neighboursStatus, roadToReturn, structureData);
+        if (roadToReturn != null)
+            return roadToReturn;
+        roadToReturn = RoadManager.CheckifThreeWayFits(neighboursStatus, roadToReturn, structureData);
+        if (roadToReturn != null)
+            return roadToReturn;
+        roadToReturn = RoadManager.CheckIfFourWaysFit(neighboursStatus, roadToReturn, structureData);
+        return roadToReturn;
     }
 
 
