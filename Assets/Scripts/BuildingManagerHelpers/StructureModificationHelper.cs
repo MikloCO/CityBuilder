@@ -9,12 +9,14 @@ public abstract class StructureModificationHelper
     protected readonly IPlacementManager placementManger;
     protected readonly StructureRepository structureRepository;
     protected StructureBaseSO structureData;
+    protected ResourceManager resourceManager;
 
-    public StructureModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger)
+    public StructureModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger, ResourceManager resourceManager)
     {
         this.structureRepository = structureRepository;
         this.grid = grid;
         this.placementManger = placementManger;
+        this.resourceManager = resourceManager;
     }
 
     public GameObject AccessStructureInDictionary(Vector3 gridPosition)

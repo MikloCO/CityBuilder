@@ -34,7 +34,7 @@ namespace Tests
             road.prefab = roadPrefab;
             collection.roadStructure = road;
             structureRepository.modelDataCollection = collection;
-            buildingManager = new BuildingManager(3, 10, 10, placementManager, structureRepository);
+            buildingManager = new BuildingManager(3, 10, 10, placementManager, structureRepository, Substitute.For<ResourceManager>());
         }
         [UnityTest]
         public IEnumerator BuildingManagerPlaymodeDemolishConfirmationTest()
@@ -163,11 +163,8 @@ namespace Tests
 
         private void PrepareDemolition(Vector3 inputPosition)
         {
-
             buildingManager.ConfirmModification();
-
             buildingManager.PrepareBuildingManager(typeof(PlayerRemoveBuildingState));
-
             buildingManager.PrepareStructureFromDemolishionAt(inputPosition);
         }
     }

@@ -10,12 +10,12 @@ public class BuildingManager
     StructureRepository structureRepository;
     StructureModificationHelper helper;
     
-    public BuildingManager(int cellSize, int width, int length, IPlacementManager placementManger, StructureRepository structureRepository)
+    public BuildingManager(int cellSize, int width, int length, IPlacementManager placementManger, StructureRepository structureRepository, ResourceManager resourceManager)
     {
         this.grid = new GridStructure(cellSize, width, length);
         this.placementManger = placementManger;
         this.structureRepository = structureRepository;
-        StructureModificationFactory.PrepareFactory(structureRepository, grid, placementManger);
+        StructureModificationFactory.PrepareFactory(structureRepository, grid, placementManger, resourceManager);
     }
 
     public void PrepareBuildingManager(Type classType)
@@ -41,6 +41,11 @@ public class BuildingManager
     public void PrepareStructureFromDemolishionAt(Vector3 inputPosition)
     {
         helper.PrepareStructureForModification(inputPosition, "", StructureType.None);
+    }
+
+    public IEnumerable<StructureBaseSO> GetAllStructures()
+    {
+        return grid.GetAllStructures();
     }
 
     public void CancelDemolishion()

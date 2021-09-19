@@ -52,6 +52,23 @@ public class GridStructure
             grid[cellIndex.y, cellIndex.x].SetConstruction(structure, structureData);
     }
 
+    public IEnumerable<StructureBaseSO> GetAllStructures()
+    {
+        List<StructureBaseSO> structureDataList = new List<StructureBaseSO>();
+        for (int row = 0; row < grid.GetLength(0); row++)
+        {
+            for (int col = 0; col < grid.GetLength(1); col++)
+            {
+                var data = grid[row, col].GetStructureData();
+                if(data != null)
+                {
+                    structureDataList.Add(data);
+                }
+            }
+        }
+        return structureDataList;
+    }
+
     public HashSet<Vector3Int> GetAllPositionsFromTo(Vector3Int minPoint, Vector3Int maxPoint)
     {
         HashSet<Vector3Int> positionsToReturn = new HashSet<Vector3Int>();

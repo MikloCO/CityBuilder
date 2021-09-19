@@ -6,7 +6,7 @@ using UnityEngine;
 public class RoadPlacementModificationHelper : StructureModificationHelper
 {
     Dictionary<Vector3Int, GameObject> existingRoadStructuresToModify = new Dictionary<Vector3Int, GameObject>();
-    public RoadPlacementModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger) : base(structureRepository, grid, placementManger)
+    public RoadPlacementModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger, ResourceManager resourceManager) : base(structureRepository, grid, placementManger, resourceManager)
     {
 
     }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class StructureDemolishionHelper : StructureModificationHelper
 {
     Dictionary<Vector3Int, GameObject> roadToDemolish = new Dictionary<Vector3Int, GameObject>();
-    public StructureDemolishionHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger) : base(structureRepository, grid, placementManger)
+    public StructureDemolishionHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger, ResourceManager resourceManager) : base(structureRepository, grid, placementManger, resourceManager)
     {
     }
     public override void CancelModification()
