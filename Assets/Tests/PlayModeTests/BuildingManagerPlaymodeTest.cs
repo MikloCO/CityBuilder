@@ -108,8 +108,8 @@ namespace Tests
             Vector3 inputPosition = PreparePlacement();
             Material material = AccessMaterial(() => buildingManager.CheckForStructureInDictionary(inputPosition));
             yield return new WaitForEndOfFrame();
-            Assert.AreEqual(material.color, Color.green);
-        }
+            Assert.AreEqual(material.color, new Color(0, 1, 0, 0.5f));
+         }
 
         [UnityTest]
         public IEnumerator BuildingManagerPlaymodeMaterialChangePlacementConfirmTests()
@@ -130,7 +130,7 @@ namespace Tests
             PrepareDemolition(inputPosition);
             Material material = AccessMaterial(() => buildingManager.CheckForStructureInDictionary(inputPosition));
             yield return new WaitForEndOfFrame();
-            Assert.AreEqual(material.color, Color.red);
+            Assert.AreEqual(material.color, new Color(1, 0, 0, 0.5f));
         }
 
         [UnityTest]

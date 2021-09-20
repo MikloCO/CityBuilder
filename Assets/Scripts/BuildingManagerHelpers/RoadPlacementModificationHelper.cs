@@ -6,7 +6,7 @@ using UnityEngine;
 public class RoadPlacementModificationHelper : StructureModificationHelper
 {
     Dictionary<Vector3Int, GameObject> existingRoadStructuresToModify = new Dictionary<Vector3Int, GameObject>();
-    public RoadPlacementModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger, ResourceManager resourceManager) : base(structureRepository, grid, placementManger, resourceManager)
+    public RoadPlacementModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger, IResourceManager resourceManager) : base(structureRepository, grid, placementManger, resourceManager)
     {
 
     }
@@ -22,10 +22,12 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
             if (structureToBemodified.ContainsKey(gridPositionInt))
             {
                 RevokePlacementAt(gridPositionInt);
+                resourceManager.AddMoney(structureData.placementCost);
             }
-            else
+            else if(resourceManager.CanIBuyIt(structureData.placementCost))
             {
                 PlaceNewRoadAt(roadStructure, gridPosition, gridPositionInt);
+                resourceManager.SpendMoney(structureData.placementCost);
             }
             AdjustNeighboursIfRoadsStructures(gridPosition);
         }
@@ -87,6 +89,7 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
 
     public override void CancelModification()
     {
+        resourceManager.AddMoney(structureToBemodified.Count * structureData.placementCost);
         base.CancelModification();
         existingRoadStructuresToModify.Clear();
     }

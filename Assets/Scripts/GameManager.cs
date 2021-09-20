@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
 
     public PlayerState State { get => state; }
 
-    public ResourceManager resourceManager;
+    public GameObject resourceManagerGameObject;
+    private IResourceManager resourceManager;
 
     private void Awake()
     {
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
     private void PrepareStates()
     {
         buildingManager = new BuildingManager(cellSize, width, length, placementManager, structureRepositoryy, resourceManager);
+        resourceManager.PrepareResourceManager(buildingManager);
         selectionState = new PlayerSelectionState(this);
         demolishState = new PlayerRemoveBuildingState(this, buildingManager);
         buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);
@@ -55,6 +57,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         placementManager = placementManagerGameObject.GetComponent<IPlacementManager>();
+        resourceManager = resourceManagerGameObject.GetComponent<IResourceManager>();
         PrepareStates();
         PrepareGameComponents();
         AssignInputListeners();
@@ -65,7 +68,6 @@ public class GameManager : MonoBehaviour
     {
         inputManager.mouseInputMask = inputMask;
         cameraMovement.SetCameralimits(0, width, 0, length);
-     //   inputManager = FindObjectsOfType<MonoBehaviour>().OfType<IInputManager>().FirstOrDefault();
         inputManager = FindObjectsOfType<MonoBehaviour>().OfType<IInputManager>().FirstOrDefault();
 
     }

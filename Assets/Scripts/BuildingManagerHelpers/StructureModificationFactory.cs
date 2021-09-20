@@ -11,7 +11,7 @@ public static class StructureModificationFactory
     private static StructureModificationHelper roadStructurePlacementHelper;
     private static StructureModificationHelper zonePlacementHelper;
 
-    public static void PrepareFactory(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger, ResourceManager resourceManager)
+    public static void PrepareFactory(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger, IResourceManager resourceManager)
     {
         singleStructurePlacementHelper = new SingleStructurePlacementHelper(structureRepository, grid, placementManger, resourceManager);
         StructureDemolishionHelper = new StructureDemolishionHelper(structureRepository, grid, placementManger, resourceManager);

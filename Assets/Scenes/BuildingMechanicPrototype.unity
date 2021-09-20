@@ -523,7 +523,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afcc9062f474e70499d17f5420fcfebe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startMoneyAmount: 5000
+  startMoneyAmount: 10000
+  demolishPrice: 20
   moneyCalculationInterval: 2
   uiController: {fileID: 1392924886}
 --- !u!4 &536753537
@@ -997,6 +998,7 @@ MonoBehaviour:
   inputMask:
     serializedVersion: 2
     m_Bits: 512
+  resourceManagerGameObject: {fileID: 536753535}
 --- !u!4 &778963958 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1309769820079268516, guid: f9eff4a81c26fb24ea0037feed9c1b2b,

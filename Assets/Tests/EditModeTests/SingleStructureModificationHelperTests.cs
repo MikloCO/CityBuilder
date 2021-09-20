@@ -7,14 +7,16 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
+
     [TestFixture]
     public class SingleStructureModificationHelperTests
     {
-        GameObject tempObject;
+        GameObject tempObject = null;
         GridStructure grid;
         StructureType structureType = StructureType.Road;
         string structureName = "Road";
-        Vector3 gridposition1 = Vector3.zero;
+        Vector3 gridPosition1 = Vector3.zero;
+        Vector3 gridPosition2 = new Vector3(3, 0, 3);
         StructureModificationHelper helper;
 
         [SetUp]
@@ -22,23 +24,64 @@ namespace Tests
         {
             StructureRepository structureRepository = TestHelpers.CreateStructureRepositoryContainingRoad();
             IPlacementManager placementManager = Substitute.For<IPlacementManager>();
+            IResourceManager resourceManager = Substitute.For<IResourceManager>();
+            resourceManager.CanIBuyIt(default).Returns(true);
+
             tempObject = new GameObject();
             placementManager.CreateGhostStructure(default, default).ReturnsForAnyArgs(tempObject);
             grid = new GridStructure(3, 10, 10);
             helper = new SingleStructurePlacementHelper(structureRepository, grid, placementManager, Substitute.For<ResourceManager>());
-
         }
         // A Test behaves as an ordinary method
         [Test]
-        public void SingleStructureModificationHelperAddPositionPass()
+        public void SingleStructureModificationHelperAddPositionPasses()
         {
-            helper.PrepareStructureForModification(gridposition1, structureName, structureType);
-            GameObject objectInDictionary = helper.AccessStructureInDictionary(gridposition1);
+            helper.PrepareStructureForModification(gridPosition1, structureName, structureType);
+            GameObject objectInDictionary = helper.AccessStructureInDictionary(gridPosition1);
             Assert.AreEqual(tempObject, objectInDictionary);
         }
 
-        // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-        // `yield return null;` to skip a frame.
-  
+        [Test]
+        public void SingleStructureModificationHelperRemoveFromPositionsPasses()
+        {
+            helper.PrepareStructureForModification(gridPosition1, structureName, structureType);
+            helper.PrepareStructureForModification(gridPosition1, structureName, structureType);
+            GameObject objectInDictionary = helper.AccessStructureInDictionary(gridPosition1);
+            Assert.IsNull(objectInDictionary);
+        }
+
+        [Test]
+        public void SingleStructureModificationHelperAddToPositionsTwoTimesPasses()
+        {
+            helper.PrepareStructureForModification(gridPosition1, structureName, structureType);
+            helper.PrepareStructureForModification(gridPosition2, structureName, structureType);
+            GameObject objectInDictionary1 = helper.AccessStructureInDictionary(gridPosition1);
+            GameObject objectInDictionary2 = helper.AccessStructureInDictionary(gridPosition2);
+            Assert.AreEqual(tempObject, objectInDictionary1);
+            Assert.AreEqual(tempObject, objectInDictionary2);
+        }
+
+        [Test]
+        public void SingleStructureModificationHelperRemoveFromAllPositionsPasses()
+        {
+            helper.PrepareStructureForModification(gridPosition1, structureName, structureType);
+            helper.PrepareStructureForModification(gridPosition2, structureName, structureType);
+            helper.CancelModification();
+            GameObject objectInDictionary1 = helper.AccessStructureInDictionary(gridPosition1);
+            GameObject objectInDictionary2 = helper.AccessStructureInDictionary(gridPosition2);
+            Assert.IsNull(objectInDictionary1);
+            Assert.IsNull(objectInDictionary2);
+        }
+
+        [Test]
+        public void SingleStructureModificationHelperAddToGridPasses()
+        {
+            helper.PrepareStructureForModification(gridPosition1, structureName, structureType);
+            helper.PrepareStructureForModification(gridPosition2, structureName, structureType);
+            helper.ConfirmModification();
+            Assert.IsTrue(grid.bIsCellTaken(gridPosition1));
+            Assert.IsTrue(grid.bIsCellTaken(gridPosition2));
+        }
+
     }
 }

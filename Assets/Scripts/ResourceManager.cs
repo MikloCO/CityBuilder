@@ -3,13 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager : MonoBehaviour
+public class ResourceManager : MonoBehaviour, IResourceManager
 {
-    public int startMoneyAmount = 5000;
-    public float moneyCalculationInterval = 2;
+    [SerializeField]
+    private int startMoneyAmount = 5000;
+    [SerializeField]
+    private int demolishPrice = 20;
+    [SerializeField]
+    private float moneyCalculationInterval = 2;
     MoneyHelper moneyHelper;
-    public BuildingManager buildingManager;
+    private BuildingManager buildingManager;
     public UIController uiController;
+
+    public int StartMoneyAmount { get => startMoneyAmount;  }
+    public float MoneyCalculationInterval { get => moneyCalculationInterval; }
+
+    int IResourceManager.DemolishionPrice{ get => demolishPrice; }
 
 
     //Start is called before the first frame update
@@ -19,9 +28,15 @@ public class ResourceManager : MonoBehaviour
         UpdateMoneyValueUI();
     }
 
+    public void PrepareResourceManager(BuildingManager buildingManager)
+    {
+        this.buildingManager = buildingManager;
+        InvokeRepeating("CalculateTownIncome", 0, MoneyCalculationInterval);
+    }
+
     public bool SpendMoney(int amount)
     {
-        if(CanIBuyIt(amount))
+        if (CanIBuyIt(amount))
         {
             try
             {
@@ -67,6 +82,11 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        CancelInvoke();
+    }
+
     public void AddMoney(int amount)
     {
         moneyHelper.AddMoney(amount);
@@ -81,6 +101,11 @@ public class ResourceManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+    public int HowManyStructuresCanIPlace(int placementCost, int numberOfStructures)
+    {
+        int amount = (int)(moneyHelper.Money / placementCost);
+        return amount > numberOfStructures ? numberOfStructures : amount;
     }
 }

@@ -9,14 +9,16 @@ public abstract class StructureModificationHelper
     protected readonly IPlacementManager placementManger;
     protected readonly StructureRepository structureRepository;
     protected StructureBaseSO structureData;
-    protected ResourceManager resourceManager;
+    protected IResourceManager resourceManager;
 
-    public StructureModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger, ResourceManager resourceManager)
+    public StructureModificationHelper(StructureRepository structureRepository, GridStructure grid, IPlacementManager placementManger, IResourceManager resourceManager)
     {
         this.structureRepository = structureRepository;
         this.grid = grid;
         this.placementManger = placementManger;
         this.resourceManager = resourceManager;
+        structureData = ScriptableObject.CreateInstance<NullScriptableSO>(); // Structure data always has value, and is never null. 
+        
     }
 
     public GameObject AccessStructureInDictionary(Vector3 gridPosition)
@@ -49,7 +51,7 @@ public abstract class StructureModificationHelper
     }
     public virtual void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
     {
-        if(structureData == null && structureType!= StructureType.None)
+        if(structureData.GetType()==typeof(NullScriptableSO) && structureType != StructureType.None)
         {
             structureData = this.structureRepository.GetStructureData(structureName, structureType);
         }
@@ -57,7 +59,7 @@ public abstract class StructureModificationHelper
     private void ResetHelpersData()
     {
         structureToBemodified.Clear();
-        structureData = null;
+        structureData = ScriptableObject.CreateInstance<NullScriptableSO>();
     }
 
     public virtual void StopContinousPlacement()
