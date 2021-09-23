@@ -11,6 +11,28 @@ public class RoadStructureSO : StructureBaseSO
     public GameObject threeWayPrefab;
     public GameObject FourWayPrefab;
     public RotationValue prefabRotation = RotationValue.R0;
+
+    public void PrepareRoad(IEnumerable<StructureBaseSO> structuresAround)
+    {
+        foreach (var nearbyStructure in structuresAround)
+        {
+            nearbyStructure.PrepareStructure(new StructureBaseSO[] { this });
+        }
+    }
+
+    public IEnumerable<StructureBaseSO> PrepareRoadDemolishion(IEnumerable<StructureBaseSO> structuresAround)
+    {
+        List<StructureBaseSO> listToReturn = new List<StructureBaseSO>();
+        foreach (var nearbyStructure in structuresAround)
+        {
+            if (nearbyStructure.RoadProvider == this)
+            {
+                nearbyStructure.RemoveRoadProvider();
+                listToReturn.Add(nearbyStructure);
+            }
+        }
+        return listToReturn;
+    }
 }
 
 public enum RotationValue
