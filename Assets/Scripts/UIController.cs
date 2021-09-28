@@ -35,6 +35,9 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI moneyValue;
     public TextMeshProUGUI populationValue;
 
+    public GameObject structureInfoPanel;
+
+
     // Start is called before the first frame update
     void Start()
     {

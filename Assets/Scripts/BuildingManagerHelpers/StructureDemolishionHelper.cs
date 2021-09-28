@@ -48,10 +48,12 @@ public class StructureDemolishionHelper : StructureModificationHelper
         var data = grid.GetDataStructureFromTheGrid(gridPosition);
         if(data != null)
         {
-            if(data.GetType()==typeof(ZoneStructureSO) && ((ZoneStructureSO)data).zoneType == ZoneType.Residential)
+            Type dataType = data.GetType();
+            if(dataType == typeof(ZoneStructureSO) && ((ZoneStructureSO)data).zoneType == ZoneType.Residential)
             {
                 resourceManager.ReducePopulation(1);
             }
+            StructureEconomyManager.DemolishionStructureLogic(dataType, gridPosition, grid);
         }
     }
 
