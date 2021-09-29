@@ -1790,7 +1790,7 @@ GameObject:
   - component: {fileID: 727273704}
   - component: {fileID: 727273703}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: clientsValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2009,7 +2009,7 @@ GameObject:
   - component: {fileID: 756418453}
   - component: {fileID: 756418452}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: incomeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2143,7 +2143,7 @@ GameObject:
   - component: {fileID: 768848890}
   - component: {fileID: 768848889}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: RoadName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2585,13 +2585,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ac3caa77b34f544eb2b8d986c035575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameTxt: {fileID: 231405678}
-  incomeTxt: {fileID: 1191069386}
-  upkeepTxt: {fileID: 568711576}
-  clientsTxt: {fileID: 2034513766}
-  powerToggle: {fileID: 1407435910}
+  nameTxt: {fileID: 768848889}
+  incomeTxt: {fileID: 756418452}
+  upkeepTxt: {fileID: 1035073308}
+  clientsTxt: {fileID: 727273703}
+  powerToggle: {fileID: 2112287754}
   waterToggle: {fileID: 752266183}
-  roadToggle: {fileID: 2112287754}
+  roadToggle: {fileID: 1407435910}
 --- !u!1 &986626991
 GameObject:
   m_ObjectHideFlags: 0
@@ -2755,7 +2755,7 @@ GameObject:
   - component: {fileID: 1035073309}
   - component: {fileID: 1035073308}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: UpkeepValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3394,7 +3394,7 @@ MonoBehaviour:
     type: 3}
   moneyValue: {fileID: 2103933683}
   populationValue: {fileID: 1348558602}
-  structureInfoPanel: {fileID: 0}
+  structurePanelHelper: {fileID: 913505407}
 --- !u!4 &1392924887
 Transform:
   m_ObjectHideFlags: 0

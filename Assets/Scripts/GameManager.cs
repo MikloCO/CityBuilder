@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     {
         buildingManager = new BuildingManager(cellSize, width, length, placementManager, structureRepositoryy, resourceManager);
         resourceManager.PrepareResourceManager(buildingManager);
-        selectionState = new PlayerSelectionState(this);
+        selectionState = new PlayerSelectionState(this, buildingManager);
         demolishState = new PlayerRemoveBuildingState(this, buildingManager);
         buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);
         buildingAreaState = new PlayerBuildZoneState(this, buildingManager);

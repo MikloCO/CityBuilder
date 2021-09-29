@@ -35,8 +35,19 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI moneyValue;
     public TextMeshProUGUI populationValue;
 
-    public GameObject structureInfoPanel;
+//    public GameObject structureInfoPanel;
 
+    public UIStructureInfoPanelHelper structurePanelHelper;
+
+    public void HideStructureInfo()
+    {
+        structurePanelHelper.Hide();
+    }
+
+    public bool GetStructureInfoVisibility()
+    {
+        return structurePanelHelper.gameObject.activeSelf;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +66,21 @@ public class UIController : MonoBehaviour
     {
         cancelActionPanel.SetActive(false);
         OnConfirmActionHandler?.Invoke();
+    }
+
+    public void DisplayBasicStructureInfo(StructureBaseSO data)
+    {
+        structurePanelHelper.DisplayBasicStructureInfo(data);
+    }
+
+    public void DisplayZoneStructureInfo(ZoneStructureSO data)
+    {
+        structurePanelHelper.DisplayZoneStructureInfo(data);
+    }
+
+    public void DisplayFacilityStructureInfo(SingleFacilitySO data)
+    {
+        structurePanelHelper.DisplayFacilityStructureInfo(data);
     }
 
 
