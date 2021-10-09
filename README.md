@@ -7,4 +7,4 @@ I have also created the icons used in the UI, textures and 3D assets.
 <img src="Documentation/citybuilder.gif">
 <img src="Documentation/citybuilder_.gif">
 
-Watch full length video here: <a href="Documentation/citybuilder_.gif">CityBuilder/Documentation/citybuilder_.gif</a>
+Watch full length video here: <a href="Documentation/Citybuilder_status_october_L.m4v">CityBuilder/Documentation/citybuilder_.gif</a>
