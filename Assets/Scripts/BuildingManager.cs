@@ -10,9 +10,9 @@ public class BuildingManager
     StructureRepository structureRepository;
     StructureModificationHelper helper;
     
-    public BuildingManager(int cellSize, int width, int length, IPlacementManager placementManger, StructureRepository structureRepository, IResourceManager resourceManager)
+    public BuildingManager(GridStructure grid, IPlacementManager placementManger, StructureRepository structureRepository, IResourceManager resourceManager)
     {
-        this.grid = new GridStructure(cellSize, width, length);
+        this.grid = grid;
         this.placementManger = placementManger;
         this.structureRepository = structureRepository;
         StructureModificationFactory.PrepareFactory(structureRepository, grid, placementManger, resourceManager);
@@ -30,7 +30,7 @@ public class BuildingManager
 
     public void CancelModification()
     {
-        helper.CancelModification();
+        helper?.CancelModification();
     }
 
     public void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)

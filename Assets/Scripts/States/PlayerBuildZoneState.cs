@@ -20,12 +20,14 @@ public class PlayerBuildZoneState : PlayerState
     public override void OnBuildRoad(string structureName)
     {
         this.buildingManager.CancelModification();
+        Audiomanager.Instance.PlayPlaceBuildingSound();
         base.OnBuildRoad(structureName);
     }
 
     public override void OnConfirmAction()
     {
         this.buildingManager.ConfirmModification();
+        Audiomanager.Instance.PlayPlaceBuildingSound();
         base.OnConfirmAction();
     }
 
@@ -48,5 +50,17 @@ public class PlayerBuildZoneState : PlayerState
     public override void OnInputPointerUp()
     {
         this.buildingManager.StopContinousPlacement();
+    }
+
+    public override void OnBuildSingleStructure(string structureName)
+    {
+        this.buildingManager.CancelModification();
+        base.OnBuildSingleStructure(structureName);
+    }
+
+    public override void OnDemolishAction()
+    {
+        this.buildingManager.CancelModification();
+        base.OnDemolishAction();
     }
 }

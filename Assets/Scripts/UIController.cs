@@ -35,8 +35,6 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI moneyValue;
     public TextMeshProUGUI populationValue;
 
-//    public GameObject structureInfoPanel;
-
     public UIStructureInfoPanelHelper structurePanelHelper;
 
     public void HideStructureInfo()
@@ -64,6 +62,7 @@ public class UIController : MonoBehaviour
 
     private void OnConfirmActionCallback()
     {
+    //    Audiomanager.Instance.PlayButtonClickedSound();
         cancelActionPanel.SetActive(false);
         OnConfirmActionHandler?.Invoke();
     }
@@ -87,11 +86,13 @@ public class UIController : MonoBehaviour
 
     private void OnCloseMenuButtonHandler()
     {
+        Audiomanager.Instance.PlayButtonClickedSound();
         buildingMenuPanel.SetActive(false);
     }
 
     private void OnDemolishHandler()
     {
+        Audiomanager.Instance.PlayButtonClickedSound();
         OnDemolishActionHandler?.Invoke();
         cancelActionPanel.SetActive(true);
         OnCloseMenuButtonHandler();
@@ -99,6 +100,7 @@ public class UIController : MonoBehaviour
 
     private void OnOpenBuildMenu()
     {
+        Audiomanager.Instance.PlayButtonClickedSound();
         buildingMenuPanel.SetActive(true);
         PrepareBuildMenu();
     }
@@ -174,6 +176,7 @@ public class UIController : MonoBehaviour
 
     private void OnCancelActionCallBack()
     {
+        Audiomanager.Instance.PlayButtonClickedSound();
         cancelActionPanel.SetActive(false);
         OnCancleActionHandler?.Invoke();
     }

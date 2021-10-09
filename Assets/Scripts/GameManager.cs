@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     public GameObject resourceManagerGameObject;
     private IResourceManager resourceManager;
 
+    public WorldManager worldManager;
+
     private void Awake()
     {
 
@@ -43,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     private void PrepareStates()
     {
-        buildingManager = new BuildingManager(cellSize, width, length, placementManager, structureRepositoryy, resourceManager);
+        buildingManager = new BuildingManager(worldManager.Grid, placementManager, structureRepositoryy, resourceManager);
         resourceManager.PrepareResourceManager(buildingManager);
         selectionState = new PlayerSelectionState(this, buildingManager);
         demolishState = new PlayerRemoveBuildingState(this, buildingManager);
@@ -57,7 +59,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         placementManager = placementManagerGameObject.GetComponent<IPlacementManager>();
+        placementManager.PreparePlacementManager(worldManager);
         resourceManager = resourceManagerGameObject.GetComponent<IResourceManager>();
+        worldManager.PrepareWorld(cellSize, width, length);
         PrepareStates();
         PrepareGameComponents();
         AssignInputListeners();

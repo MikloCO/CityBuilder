@@ -6,6 +6,7 @@ using UnityEngine;
 public class Cell
 {
     GameObject structureModel = null;
+    List<GameObject> natureList = new List<GameObject>();
     StructureBaseSO structureData;
     bool isTaken = false;
 
@@ -35,5 +36,15 @@ public class Cell
     public StructureBaseSO GetStructureData()
     {
         return structureData;
+    }
+
+    public void AddNatureObject(GameObject element)
+    {
+        natureList.Add(element);
+    }
+
+    public List<GameObject> GetNatureOnThisCell()
+    {
+        return natureList;
     }
 }

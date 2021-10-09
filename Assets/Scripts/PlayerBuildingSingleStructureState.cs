@@ -16,6 +16,7 @@ public class PlayerBuildingSingleStructureState : PlayerState
     public override void OnConfirmAction()
     {
         this.buildingManager.ConfirmModification();
+        Audiomanager.Instance.PlayPlaceBuildingSound();
         base.OnConfirmAction();
     }
 
@@ -23,6 +24,12 @@ public class PlayerBuildingSingleStructureState : PlayerState
     public override void OnInputPointerChange(Vector3 position)
     {
         return;
+    }
+
+    public override void OnDemolishAction()
+    {
+        this.buildingManager.CancelModification();
+        base.OnDemolishAction();
     }
 
     public override void OnInputPointerDown(Vector3 position)

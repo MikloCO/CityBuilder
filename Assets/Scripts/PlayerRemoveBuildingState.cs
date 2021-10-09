@@ -19,6 +19,7 @@ public class PlayerRemoveBuildingState : PlayerState
     public override void OnConfirmAction()
     {
         this.buildingManager.ConfirmDemolishion();
+        Audiomanager.Instance.PlayDemolishionSound();
         base.OnConfirmAction();
     }
 
@@ -35,7 +36,7 @@ public class PlayerRemoveBuildingState : PlayerState
 
     public override void OnBuildRoad(string structureName)
     {
-        this.buildingManager.CancelDemolishion();
+      //  this.buildingManager.CancelDemolishion();
         base.OnBuildRoad(structureName);
     }
 
@@ -57,6 +58,7 @@ public class PlayerRemoveBuildingState : PlayerState
 
     public override void EnterState(string variable)
     {
+     //   this.buildingManager.CancelDemolishion();
         this.buildingManager.PrepareBuildingManager(this.GetType());
     }
 }

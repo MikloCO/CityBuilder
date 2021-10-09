@@ -13,6 +13,7 @@ namespace Tests
     {
         BuildingManager buildingManager;
         Material materialTransparent;
+        private GridStructure grid;
 
         [SetUp]
         public void InitBeforeEveryTests()
@@ -34,7 +35,7 @@ namespace Tests
             road.prefab = roadPrefab;
             collection.roadStructure = road;
             structureRepository.modelDataCollection = collection;
-            buildingManager = new BuildingManager(3, 10, 10, placementManager, structureRepository, Substitute.For<ResourceManager>());
+            buildingManager = new BuildingManager(grid, placementManager, structureRepository, Substitute.For<ResourceManager>());
         }
         [UnityTest]
         public IEnumerator BuildingManagerPlaymodeDemolishConfirmationTest()

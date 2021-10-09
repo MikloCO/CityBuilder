@@ -33,8 +33,14 @@ public class PlayerBuildingRoadState : PlayerState
     public override void OnConfirmAction()
     {
         this.buildingManager.ConfirmModification();
+        Audiomanager.Instance.PlayPlaceBuildingSound();
         base.OnConfirmAction();
-  
+    }
+
+    public override void OnDemolishAction()
+    {
+        this.buildingManager.CancelModification();
+        base.OnDemolishAction();
     }
 
     public override void EnterState(string structureName)

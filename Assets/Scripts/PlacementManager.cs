@@ -8,6 +8,7 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
     public Transform ground;
     public Material transparentMaterial;
     private Dictionary<GameObject, Material[]> originalMaterials = new Dictionary<GameObject, Material[]>();
+    private WorldManager worldManager;
 
     public GameObject CreateGhostStructure(Vector3 gridPosition, GameObject buildingPrefab, RotationValue rotationValue = RotationValue.R0)
     {
@@ -15,6 +16,11 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
         Color colorToSet = Color.green;
         ModifyStructurePrefabLook(newStructure, colorToSet);
         return newStructure;
+    }
+
+    public void PreparePlacementManager(WorldManager worldManager)
+    {
+        this.worldManager = worldManager;
     }
 
     public GameObject PlaceStructureOnTheMap(Vector3 gridPosition, GameObject buildingPrefab, RotationValue rotationValue)
@@ -67,6 +73,7 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
     {
         foreach (var structure in structureCollection)
         {
+            worldManager.DestroyNatureAtLocation(structure.transform.position);
             ResetBuildingLook(structure);
         }
         originalMaterials.Clear();

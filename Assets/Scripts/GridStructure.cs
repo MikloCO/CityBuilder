@@ -198,6 +198,21 @@ public class GridStructure
         return listToReturn;
     }
 
+    public void AddNatureToCell(Vector3 position, GameObject natureElement)
+    {
+        var gridPosition = CalculateGridPosition(position);
+        var gridIndex = CalculateGridIndex(gridPosition);
+        grid[gridIndex.y, gridIndex.x].AddNatureObject(natureElement);
+    }
+
+    public List<GameObject> GetNatureObjectsToRemove(Vector3 position)
+    {
+        var gridPosition = CalculateGridPosition(position);
+        var gridIndex = CalculateGridIndex(gridPosition);
+        return grid[gridIndex.y, gridIndex.x].GetNatureOnThisCell();
+
+    }
+
 }
 
 public enum Direction
